@@ -2,11 +2,11 @@
 // Created by hslnb on 2024/9/8.
 //
 #include "motor.h"
-
-
-
+#include "usart.h"
+#include "cstdio"
+#include "cstring"
+extern UART_HandleTypeDef huart1;
 namespace RDK {
-
 
 /*
  * @brief 编码电机初始化，使用增量式PID算法
@@ -105,6 +105,7 @@ namespace RDK {
 
         pid.Tick();//进行pid运算,input（0.5ms）进，output出
         if (motorCallback) motorCallback(pid.GetOutput());//输出PWM到电机
+        //在这里打印会影响PWM的输出
     }
 
 }

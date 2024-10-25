@@ -642,9 +642,7 @@ CMakeFiles/Fruit.elf.dir/Core/Src/main.c.obj: C:/STM32_WorkSpace/Fruit/Core/Src/
   C:/STM32_WorkSpace/Fruit/Core/Inc/dma.h \
   C:/STM32_WorkSpace/Fruit/Core/Inc/Servo.h \
   C:/STM32_WorkSpace/Fruit/Core/Inc/tim.h \
-  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/lib/gcc/arm-none-eabi/12.3.1/include/stdbool.h \
-  C:/STM32_WorkSpace/Fruit/Core/Inc/pid.h \
-  C:/STM32_WorkSpace/Fruit/Core/Inc/motion.h
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/lib/gcc/arm-none-eabi/12.3.1/include/stdbool.h
 
 CMakeFiles/Fruit.elf.dir/Core/Src/motion.cpp.obj: C:/STM32_WorkSpace/Fruit/Core/Src/motion.cpp \
   C:/STM32_WorkSpace/Fruit/Core/Inc/motion.h \
@@ -712,7 +710,45 @@ CMakeFiles/Fruit.elf.dir/Core/Src/motion.cpp.obj: C:/STM32_WorkSpace/Fruit/Core/
   C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/c++/12.3.1/cstdio \
   C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/stdio.h \
   C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/lib/gcc/arm-none-eabi/12.3.1/include/stdarg.h \
-  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/stdio.h
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/stdio.h \
+  C:/STM32_WorkSpace/Fruit/Core/Inc/usart.h \
+  C:/STM32_WorkSpace/Fruit/Core/Inc/main.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+  C:/STM32_WorkSpace/Fruit/Core/Inc/stm32f4xx_hal_conf.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Include/core_cm4.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/lib/gcc/arm-none-eabi/12.3.1/include/stdint.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/stdint.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/_intsup.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/_stdint.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Include/cmsis_version.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Include/cmsis_compiler.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Include/cmsis_gcc.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Include/mpu_armv7.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/string.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/_locale.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/strings.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/string.h
 
 CMakeFiles/Fruit.elf.dir/Core/Src/motor.cpp.obj: C:/STM32_WorkSpace/Fruit/Core/Src/motor.cpp \
   C:/STM32_WorkSpace/Fruit/Core/Inc/motor.h \
@@ -727,7 +763,64 @@ CMakeFiles/Fruit.elf.dir/Core/Src/motor.cpp.obj: C:/STM32_WorkSpace/Fruit/Core/S
   C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/c++/12.3.1/type_traits \
   C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/c++/12.3.1/bits/move.h \
   C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/c++/12.3.1/bits/utility.h \
-  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/c++/12.3.1/initializer_list
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/c++/12.3.1/initializer_list \
+  C:/STM32_WorkSpace/Fruit/Core/Inc/usart.h \
+  C:/STM32_WorkSpace/Fruit/Core/Inc/main.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+  C:/STM32_WorkSpace/Fruit/Core/Inc/stm32f4xx_hal_conf.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Include/core_cm4.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/lib/gcc/arm-none-eabi/12.3.1/include/stdint.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/stdint.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/machine/_default_types.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/features.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/_newlib_version.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/_intsup.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/_stdint.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Include/cmsis_version.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Include/cmsis_compiler.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Include/cmsis_gcc.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Include/mpu_armv7.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/lib/gcc/arm-none-eabi/12.3.1/include/stddef.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
+  C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/c++/12.3.1/cstdio \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/stdio.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/_ansi.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/newlib.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/config.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/machine/ieeefp.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/cdefs.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/lib/gcc/arm-none-eabi/12.3.1/include/stdarg.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/reent.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/_ansi.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/_types.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/machine/_types.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/lock.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/stdio.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/c++/12.3.1/cstring \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/string.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/_locale.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/strings.h \
+  C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/sys/string.h
 
 CMakeFiles/Fruit.elf.dir/Core/Src/pid.cpp.obj: C:/STM32_WorkSpace/Fruit/Core/Src/pid.cpp \
   C:/STM32_WorkSpace/Fruit/Core/Inc/pid.h \
@@ -1786,6 +1879,8 @@ C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-
 C:/STM32_WorkSpace/Fruit/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c:
 
 C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/machine/_types.h:
+
+C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/c++/12.3.1/cstring:
 
 C:/Program\ Files\ (x86)/Arm\ GNU\ Toolchain\ arm-none-eabi/12.3\ rel1/arm-none-eabi/include/c++/12.3.1/type_traits:
 

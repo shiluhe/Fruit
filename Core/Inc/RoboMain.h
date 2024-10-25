@@ -31,7 +31,8 @@ void RoboTick();
 void RoboTest();
 void RobotMoveLineRadius(double lineSpeed, double Radius, bool left);
 void RobotMoveSpeed(double linespeed);
-void RobotMoveForward(double speed, double ForwardDis);
+
+double RobotMoveForward(double speed, double ForwardDis);
 
 void RobotClearOdometry();
 uint32_t RobotGetOdometry();
@@ -40,7 +41,7 @@ uint32_t RobotGetOdometry();
 void RobotSpinNinety(bool left);
 void RobotFixHeading();
 void refreshFixHeading();
-
+void Transmit();
 
 ///////////////////机械臂运动/////////////////////////////////////
 void PwmServoCallback1(double pwm_now, double pwm_to_be);

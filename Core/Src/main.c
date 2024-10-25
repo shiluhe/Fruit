@@ -28,9 +28,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "RoboMain.h"
-#include "pid.h"
-#include "motion.h"
-
+#include "string.h" //使用strlen需要
 
 
 /* USER CODE END Includes */
@@ -55,8 +53,6 @@
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
-
-typedef struct TwoWheelMotion TwoWheelMotion;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -141,17 +137,18 @@ int main(void)
     HAL_TIM_Base_Start_IT(&htim7);  //每隔0.5ms计算pid
 
 
-
     RobotInit();              //初始化PID
     RobotInitServo();         //初始化PWM舵机
     HAL_Delay(1000);    //初始化时间
-//    RobotBeginVoice(0, (uint8_t *)"[v12][m0][t5]榴莲味招租队准备开始比赛");
-//    HAL_Delay(4500);//语音播报时间
+    RobotBeginVoice(0, (uint8_t *)"[v12][m0][t5]榴莲味招租队准备开始比赛");
+    HAL_Delay(4500);//语音播报时间
+
 
 
 //    RobotMoveSpeed(40);
 //    HAL_Delay(2000);
-      RobotMoveForward(30, 48);
+//   RobotMoveForward(50, 48);
+      RobotMoveSpeed(35);
 //    HAL_Delay(2000);
 //    RobotMoveForward(30, 100);
 //    HAL_Delay(2000);
@@ -171,6 +168,8 @@ int main(void)
 //    HAL_Delay(2000);
 //    RobotSpinNinety(false);
 //    refreshFixHeading();
+
+
      //RoboAllMove();
 
   /* USER CODE END 2 */
@@ -178,21 +177,15 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-
   while (1)
   {
     /* USER CODE END WHILE */
-    /* USER CODE BEGIN 3 */
-//      printf("LF:%f RF:%f LB:%f RB:%f\n", motorLFPosPID.GetOutput(); motorRFSpeed, motorLBSpeed,motorRBSpeed);
 
+    /* USER CODE BEGIN 3 */
+      Transmit();
   }
   /* USER CODE END 3 */
-
 }
-
-#ifdef __cplusplus
-}
-#endif
 
 /**
   * @brief System Clock Configuration

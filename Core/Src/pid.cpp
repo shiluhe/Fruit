@@ -191,7 +191,8 @@ namespace RDK
         return this->output;
     }
 
-/*
+
+    /*
  * @brief 设置总误差范围
  * @param min 最小值
  * @param max 最大值

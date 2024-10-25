@@ -20,7 +20,6 @@ namespace RDK
         bool reverse = false; //是否反转
         volatile int pulse = 0; //脉冲数
         MotorCallback motorCallback = nullptr; //电机PWM输出回调函数    电机执行函数
-        PID pid;
     public:
         EncodingMotor();
         ~EncodingMotor();
@@ -34,6 +33,8 @@ namespace RDK
         int GetPulse() volatile;
         int ClearPulse();
         void Tick();
+
+        PID pid;
     };
 
 }

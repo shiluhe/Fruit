@@ -69,6 +69,4 @@ CMakeFiles/Fruit.elf.dir/Core/Src/main.c.obj: \
  C:\STM32_WorkSpace\Fruit\Core\Inc/dma.h \
  C:\STM32_WorkSpace\Fruit\Core\Inc/Servo.h \
  C:\STM32_WorkSpace\Fruit\Core\Inc/tim.h \
- c:\progra~2\armgnu~1\125863~1.3re\lib\gcc\arm-none-eabi\12.3.1\include\stdbool.h \
- C:\STM32_WorkSpace\Fruit\Core\Inc/pid.h \
- C:\STM32_WorkSpace\Fruit\Core\Inc/motion.h
+ c:\progra~2\armgnu~1\125863~1.3re\lib\gcc\arm-none-eabi\12.3.1\include\stdbool.h

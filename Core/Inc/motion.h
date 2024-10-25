@@ -42,7 +42,6 @@ extern "C" {
     */
 namespace RDK{
 
-
     class TwoWheelMotion
         {
         private:
@@ -98,15 +97,15 @@ namespace RDK{
 
             void SetPosPID(double p, double i, double d);
 
-            void Move(double speed, double ForwardDis);
+            double Move(double speed, double ForwardDis);
 
-            // 确保 motorLFPosPID 是可访问的
-            double GetMotorLFOutput()
-            {return motorLFPosPID.GetOutput();}
-
-
-            // 确保将 motorLFPosPID 声明为类的成员
-            PID motorLFPosPID;
+//            // 确保 motorLFPosPID 是可访问的
+//            double GetMotorLFOutput()
+//            {return motorLFPosPID.GetOutput();}
+//
+//
+//            // 确保将 motorLFPosPID 声明为类的成员
+//            PID motorLFPosPID;
 
             void Stop();
 

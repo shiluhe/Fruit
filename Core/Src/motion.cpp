@@ -3,9 +3,13 @@
 //
 #include "motion.h"
 #include "cstdio"
+#include "usart.h"
+#include "string.h"
 
+
+extern UART_HandleTypeDef huart1;
 namespace RDK {
-    TwoWheelMotion::TwoWheelMotion():motorLFPosPID(RDK::PIDType::Pos, kp, ki, kd) {}
+    TwoWheelMotion::TwoWheelMotion(){}
 
     TwoWheelMotion::~TwoWheelMotion(){}
 
@@ -99,7 +103,6 @@ namespace RDK {
             motorRF->SetSpeed(motorRFSpeed);
         if (motorLB)
             motorLB->SetSpeed(motorLBSpeed);
-
     }
 
     void TwoWheelMotion::SetPosPID(double p, double i, double d) {
@@ -114,11 +117,11 @@ namespace RDK {
   * @param speed 移动速度
   * @param ForwardDis 前进距离
   */
-    void TwoWheelMotion::Move(double speed, double ForwardDis) {
+    double TwoWheelMotion::Move(double speed, double ForwardDis) {
         PID motorRBPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
         PID motorRFPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
         PID motorLBPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
-//        PID motorLFPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
+        PID motorLFPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
 
         if (speed < 0) speed = -speed;
         motorRBPosPID.SetTotalErrorRange(minTotalError, maxTotalError);
@@ -181,6 +184,9 @@ namespace RDK {
             motorLBSpeed += motorLBPosPID.GetOutput();
             motorRFSpeed += motorRFPosPID.GetOutput();
             motorLFSpeed += motorLFPosPID.GetOutput();
+
+
+          printf("LF:%f RF:%f\n", motorLFPosPID.GetOutput(),motorRFPosPID.GetOutput());
 
             CommitSpeed();
             timeout--;
