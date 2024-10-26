@@ -111,13 +111,14 @@ namespace RDK {
         this->kd = d;
     }
 
+
     /*
   * @brief 两轮差速前进运动
   * @attention 调用此方法会一直阻塞到移动结束！
   * @param speed 移动速度
   * @param ForwardDis 前进距离
   */
-    double TwoWheelMotion::Move(double speed, double ForwardDis) {
+    void TwoWheelMotion::Move(double speed, double ForwardDis) {
         PID motorRBPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
         PID motorRFPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
         PID motorLBPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
@@ -155,7 +156,7 @@ namespace RDK {
         motorLBPosPID.SetTarget(motorLBTargetDis);  //设置目标距离所需脉冲数
         motorLFPosPID.SetTarget(motorLFTargetDis);  //设置目标距离所需脉冲数
 
-        int timeout = ForwardDis * 0.75; //超时计数器，防止无限阻塞
+        int timeout = ForwardDis * 0.65; //超时计数器，防止无限阻塞
         while (true)
         {
             if (std::fabs(motorLF->GetPulse() - motorLFTargetDis) < 5 &&
@@ -185,9 +186,11 @@ namespace RDK {
             motorRFSpeed += motorRFPosPID.GetOutput();
             motorLFSpeed += motorLFPosPID.GetOutput();
 
-
-          printf("LF:%f RF:%f\n", motorLFPosPID.GetOutput(),motorRFPosPID.GetOutput());
-
+///////////////////////////////////////////////////Vofa_PosPID///////////////////////////////////////////////////////////////////////////////////////////////
+//                char bufferLRFB[128];
+//                sprintf(bufferLRFB, "%f\n", motorLFPosPID.GetInput()/60000);//所有的pulse之和
+//                HAL_UART_Transmit(&huart1, (uint8_t *)bufferLRFB, strlen(bufferLRFB),HAL_MAX_DELAY);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             CommitSpeed();
             timeout--;
 

@@ -2,10 +2,10 @@
 // Created by hslnb on 2024/9/8.
 //
 #include "motor.h"
-#include "usart.h"
+
 #include "cstdio"
 #include "cstring"
-extern UART_HandleTypeDef huart1;
+
 namespace RDK {
 
 /*

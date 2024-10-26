@@ -44,13 +44,13 @@ void motorCallbackLF(double pwm)
         {
             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,GPIO_PIN_SET);
             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1000+pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, pwm);
         }
         else if (pwm > 0)
         {
             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,GPIO_PIN_RESET);
             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1000+pwm);
         }
         else if(pwm == 0)
         {
@@ -65,13 +65,13 @@ void motorCallbackLF(double pwm)
         {
             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,GPIO_PIN_RESET);
             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1000+pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, pwm);
         }
         else if (pwm > 0)
         {
             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,GPIO_PIN_SET);
             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1000+pwm);
         }
         else if(pwm == 0)
         {
@@ -91,13 +91,13 @@ void motorCallbackLB(double pwm)
         {
             HAL_GPIO_WritePin(GPIOC,GPIO_PIN_4,GPIO_PIN_SET);
             HAL_GPIO_WritePin(GPIOC,GPIO_PIN_5,GPIO_PIN_RESET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1000+pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pwm);
         }
         else if (pwm > 0)
         {
             HAL_GPIO_WritePin(GPIOC,GPIO_PIN_4,GPIO_PIN_RESET);
             HAL_GPIO_WritePin(GPIOC,GPIO_PIN_5,GPIO_PIN_SET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1000+pwm);
         }
         else if(pwm == 0)
         {
@@ -112,13 +112,13 @@ void motorCallbackLB(double pwm)
         {
             HAL_GPIO_WritePin(GPIOC,GPIO_PIN_4,GPIO_PIN_RESET);
             HAL_GPIO_WritePin(GPIOC,GPIO_PIN_5,GPIO_PIN_SET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1000+pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pwm);
         }
         else if (pwm > 0)
         {
             HAL_GPIO_WritePin(GPIOC,GPIO_PIN_4,GPIO_PIN_SET);
             HAL_GPIO_WritePin(GPIOC,GPIO_PIN_5,GPIO_PIN_RESET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1000+pwm);
         }
         else if(pwm == 0)
         {
@@ -139,13 +139,13 @@ void motorCallbackRF(double pwm)
         {
             HAL_GPIO_WritePin(GPIOG,GPIO_PIN_6,GPIO_PIN_SET);
             HAL_GPIO_WritePin(GPIOG,GPIO_PIN_7,GPIO_PIN_RESET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1000+pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, pwm);
         }
         else if (pwm > 0)
         {
             HAL_GPIO_WritePin(GPIOG,GPIO_PIN_6,GPIO_PIN_RESET);
             HAL_GPIO_WritePin(GPIOG,GPIO_PIN_7,GPIO_PIN_SET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1000+pwm);
         }
         else if(pwm == 0)
         {
@@ -161,13 +161,13 @@ void motorCallbackRF(double pwm)
         {
             HAL_GPIO_WritePin(GPIOG,GPIO_PIN_6,GPIO_PIN_RESET);
             HAL_GPIO_WritePin(GPIOG,GPIO_PIN_7,GPIO_PIN_SET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1000+pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, pwm);
         }
         else if (pwm > 0)
         {
             HAL_GPIO_WritePin(GPIOG,GPIO_PIN_6,GPIO_PIN_SET);
             HAL_GPIO_WritePin(GPIOG,GPIO_PIN_7,GPIO_PIN_RESET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1000+pwm);
         }
         else if(pwm == 0)
         {
@@ -187,13 +187,13 @@ void motorCallbackRB(double pwm)
         {
             HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_SET);
             HAL_GPIO_WritePin(GPIOB,GPIO_PIN_2,GPIO_PIN_RESET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 1000+pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, pwm);
         }
         else if (pwm > 0)
         {
             HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_RESET);
             HAL_GPIO_WritePin(GPIOB,GPIO_PIN_2,GPIO_PIN_SET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 1000+pwm);
         }
         else if(pwm == 0)
         {
@@ -208,14 +208,14 @@ void motorCallbackRB(double pwm)
         {
             HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_RESET);
             HAL_GPIO_WritePin(GPIOB,GPIO_PIN_2,GPIO_PIN_SET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 1000+pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, pwm);
         }
 
         else if (pwm > 0)
         {
             HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_SET);
             HAL_GPIO_WritePin(GPIOB,GPIO_PIN_2,GPIO_PIN_RESET);
-            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, pwm);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 1000+pwm);
         }
 
         else if(pwm == 0)
@@ -232,47 +232,47 @@ void motorCallbackRB(double pwm)
 //PID初始化
 void RobotInit()
 {
-    double kp =  2.6, ki =  0.00128, kd =  0.0005; //LF
-    double kp3 = 2.6, ki3 = 0.00128, kd3 = 0.0005; //LB
-    double kpr = 2.6, kir = 0.00128, kdr = 0.0005; //RF
-    double kp4 = 2.6, ki4 = 0.00128, kd4 = 0.0005; //RB
+    //速度环PID
+    double kp =  2.60, ki =  0.001283, kd =  0.001; //LF
+    double kp3 = 2.60, ki3 = 0.001283, kd3 = 0.001; //LB
+    double kpr = 2.60, kir = 0.001283, kdr = 0.001; //RF
+    double kp4 = 2.60, ki4 = 0.001283, kd4 = 0.001; //RB
 
     encodingMotorRB.SetPID(kp4, ki4, kd4);
     encodingMotorRB.SetOutputRange(-1000, 1000);
     encodingMotorRB.SetSpeed(0);
     encodingMotorRB.SetCallback(motorCallbackRB);
-    encodingMotorRB.SetReverse(true);
+    encodingMotorRB.SetReverse(false);
 
     encodingMotorLF.SetPID(kp, ki, kd);
     encodingMotorLF.SetOutputRange(-1000,   1000);
     encodingMotorLF.SetSpeed(0);
     encodingMotorLF.SetCallback(motorCallbackLF);
-    encodingMotorLF.SetReverse(false);
+    encodingMotorLF.SetReverse(true);
 
     encodingMotorRF.SetPID(kpr, kir, kdr);
     encodingMotorRF.SetOutputRange(-1000, 1000);
     encodingMotorRF.SetSpeed(0);
     encodingMotorRF.SetCallback(motorCallbackRF);
-    encodingMotorRF.SetReverse(true);
+    encodingMotorRF.SetReverse(false);
 
     encodingMotorLB.SetPID(kp3, ki3, kd3);
     encodingMotorLB.SetOutputRange(-1000, 1000);
     encodingMotorLB.SetSpeed(0);
     encodingMotorLB.SetCallback(motorCallbackLB);
-    encodingMotorLB.SetReverse(false);
+    encodingMotorLB.SetReverse(true);
 
     twoWheelMotion.SetEncodingMotorRB(&encodingMotorRB);
     twoWheelMotion.SetEncodingMotorLF(&encodingMotorLF);
     twoWheelMotion.SetEncodingMotorRF(&encodingMotorRF);
     twoWheelMotion.SetEncodingMotorLB(&encodingMotorLB);
 
-//    SpinMotion.SetEncodingMotorLF(&encodingMotorLF);
-//    SpinMotion.SetEncodingMotorRF(&encodingMotorRF);
-//    SpinMotion.SetEncodingMotorLB(&encodingMotorLB);
-//    SpinMotion.SetEncodingMotorRB(&encodingMotorRB);
-//    SpinMotion.LinkMotion(&twoWheelMotion);
-//    forward_heading_fix = SpinMotion.GetNowHeading();
-//    twoWheelMotion.SetSpinMotion(&SpinMotion);
+    SpinMotion.SetEncodingMotorLF(&encodingMotorLF);
+    SpinMotion.SetEncodingMotorRF(&encodingMotorRF);
+    SpinMotion.SetEncodingMotorLB(&encodingMotorLB);
+    SpinMotion.SetEncodingMotorRB(&encodingMotorRB);
+    SpinMotion.LinkMotion(&twoWheelMotion);
+    forward_heading_fix = SpinMotion.GetNowHeading();
 
 }
 
@@ -314,7 +314,6 @@ void RobotMoveLineRadius(double lineSpeed, double Radius, bool left)
     twoWheelMotion.CommitSpeed();
 }
 
-
 void RobotMoveSpeed(double lineSpeed)
 {
     twoWheelMotion.ClearSpeed();
@@ -322,7 +321,7 @@ void RobotMoveSpeed(double lineSpeed)
     twoWheelMotion.CommitSpeed();
 }
 
-double RobotMoveForward(double speed, double ForwardDis) //ForwardDis单位为cm
+void RobotMoveForward(double speed, double ForwardDis) //ForwardDis单位为cm
 {
     ForwardDis = ForwardDis / 30 * 60000;
     twoWheelMotion.Move(speed, ForwardDis);
@@ -367,12 +366,11 @@ uint32_t RobotGetOdometry()
 }
 
 //////////////////////////////////////////调PID用/////////////////////////////////////////////////////////////////////
-void Transmit(){
-    char bufferLF[32];
-    sprintf(bufferLF, "%f \n", encodingMotorLF.pid.GetInput());
-    HAL_UART_Transmit(&huart1, (uint8_t *)bufferLF, strlen(bufferLF),HAL_MAX_DELAY);
+void VofaTransmitInc(){
+    char bufferLRFB[128];
+    sprintf(bufferLRFB, "%f,%f,%f,%f \n", encodingMotorLF.pid.GetInput(),encodingMotorRF.pid.GetInput(),encodingMotorLB.pid.GetInput(),encodingMotorRB.pid.GetInput());
+    HAL_UART_Transmit(&huart1, (uint8_t *)bufferLRFB, strlen(bufferLRFB),HAL_MAX_DELAY);
 }
-
 
 ////////////////////////////////////////////机械臂运动/////////////////////////////////////////////////////////////////
 Servo BusServo1(BusServo, 2 * PI / 3, 0, 1); //240度总线舵机 顺时针角度减小
@@ -432,13 +430,27 @@ void RobotTestServo(){
 
 void RobotArmMiddle()
 {
+
     BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
     BusServo1.MoveBusServoCmd(23.0/30*PI,1000);
     BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
     HAL_Delay(500); //等待总线舵机完成
+
     PwmServo1.PwmCommitAngle(172.8,360);
     PwmServo2.PwmCommitAngle(90,180);
     HAL_Delay(800);
+
+}
+
+void RobotArmMiddleBehind(){
+    BusServo2.MoveBusServoCmd(0.4*PI,2000);
+    BusServo1.MoveBusServoCmd(0.8*PI,1000); //600
+    BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
+    HAL_Delay(1800);
+    PwmServo1.PwmCommitAngle(0,360);
+    HAL_Delay(1250);
+    PwmServo2.PwmCommitAngle(90,180);
+    HAL_Delay(1250);
 
 }
 
@@ -508,14 +520,14 @@ void RobotGrabRightUp()
             HAL_Delay(1000);
 
             //抓取水果 抓取好放回篮子
-            PwmServo2.PwmCommitAngle(70, 180);
+            PwmServo2.PwmCommitAngle(65, 180);
             HAL_Delay(500);
             BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470
             BusServo1.MoveBusServoCmd(59.0/75*PI - AngleOffset,1000); //590
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
             HAL_Delay(1500);
             PwmServo2.PwmCommitAngle(22,180);//爪子闭合
-            HAL_Delay(1000);
+            HAL_Delay(1200);
             BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //抬升一下 620/加30
             HAL_Delay(1000);
 
@@ -543,8 +555,8 @@ void RobotGrabRightGround()
     PwmServo2.PwmCommitAngle(90,180);
 //    HAL_Delay(1000);
     BusServo2.MoveBusServoCmd(13.0/15*PI,1000); //650
-    BusServo1.MoveBusServoCmd(89.0/150*PI,1000); //455
-    BusServo3.MoveBusServoCmd(44.0/150*PI,1000); //235
+    BusServo1.MoveBusServoCmd(88.0/150*PI,1000); //455
+    BusServo3.MoveBusServoCmd(46.0/150*PI,1000); //235
     HAL_Delay(2000);
 
     rx_times_flag1 = 0;
@@ -689,12 +701,12 @@ void RobotGrabLeftUp()
             HAL_Delay(1000);
 
             //抓取水果 抓取好放回篮子
-            PwmServo2.PwmCommitAngle(70, 180);
+            PwmServo2.PwmCommitAngle(60, 180);
             HAL_Delay(500);
             BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470
             BusServo1.MoveBusServoCmd(60.0/75*PI - AngleOffset,1000); //590
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
-            HAL_Delay(1500);
+            HAL_Delay(2000);//改了
             PwmServo2.PwmCommitAngle(23,180);
             HAL_Delay(1250);
             BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //抬升一下 620/+30
@@ -1040,28 +1052,28 @@ void RobotReceivedFruitVoice() {
 
 void RoboAllMove() {
     ///////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAA区区//////////////////////////////////////////////
-    RobotMoveForward(30, 48);//前轮到出发线8cm
+    RobotMoveForward(50, 48);//前轮到出发线8cm
     RobotArmMiddle();
     RobotGrabRightGround();
     RobotArmMiddle();
     RobotGrabLeftUp();
     RobotArmMiddle();
 
-    RobotMoveForward(30, 100);
+    RobotMoveForward(50, 100);
     RobotArmMiddle();
     RobotGrabRightUp();
     RobotArmMiddle();
     RobotGrabLeftGround();
     RobotArmMiddle();
 
-    RobotMoveForward(30, 100);
+    RobotMoveForward(50, 100);
     RobotArmMiddle();
     RobotGrabRightGround();
     RobotArmMiddle();
     RobotGrabLeftUp();
-//    RobotArmMiddle();
+    RobotArmMiddleBehind();
 
-    RobotMoveForward(30, 60);
+    RobotMoveForward(50, 60);
     RobotSpinNinety(false);
     //更新角度
     ///////////////////////////////////BBBBBBBBBBBBBBBBBBBBBBBBBBB区区/////////////////////////////////////////////////
@@ -1089,10 +1101,42 @@ void RoboAllMove() {
     RobotArmMiddle();
     RobotGrabLeftUp();
     RobotArmMiddle();
-    /////////////////////////////////CCCCCCCCCCCCCCCCCCCCCCCCC区////////////////////////////////////////////////////////
 
-//    HAL_Delay(3000);
-//    RobotReceivedFruitVoice();
+    RobotMoveForward(50, 60);
+    RobotSpinNinety(true);
+    /////////////////////////////////CCCCCCCCCCCCCCCCCCCCCCCCC区区////////////////////////////////////////////////////////
+    RobotMoveForward(50, 122.5);
+    RobotSpinNinety(true);
+
+    RobotMoveForward(50, 44);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(50, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(50, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(50, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(50, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
 
 }
 

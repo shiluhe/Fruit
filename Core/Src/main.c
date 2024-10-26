@@ -114,10 +114,10 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   //Init
-
-//    HAL_Delay(5000); //延迟5秒是为了稳定惯导的度数???
 //
-//    __HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE); //关闭接收完成事件中断
+    HAL_Delay(5000); //延迟5秒是为了稳定惯导的度数???
+
+    __HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE); //关闭接收完成事件中断
 
 
     HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
@@ -139,38 +139,41 @@ int main(void)
 
     RobotInit();              //初始化PID
     RobotInitServo();         //初始化PWM舵机
-    HAL_Delay(1000);    //初始化时间
+    HAL_Delay(500);    //初始化时间
     RobotBeginVoice(0, (uint8_t *)"[v12][m0][t5]榴莲味招租队准备开始比赛");
     HAL_Delay(4500);//语音播报时间
 
 
+    RobotMoveForward(40, 48);
 
 //    RobotMoveSpeed(40);
-//    HAL_Delay(2000);
-//   RobotMoveForward(50, 48);
-      RobotMoveSpeed(35);
-//    HAL_Delay(2000);
-//    RobotMoveForward(30, 100);
-//    HAL_Delay(2000);
-//    RobotMoveForward(30, 60);
-//    HAL_Delay(2000);
+//    HAL_Delay(1000);
 //    RobotSpinNinety(false);
-//    RobotArmMiddle();
-//    RobotGrabRightGround();
-//    RobotArmMiddle();
-//    RobotGrabLeftUp();
-//    RobotArmMiddle();
-//    RobotGrabLeftGround();
-//    RobotArmMiddle();
-//    RobotGrabRightUp();
-//    RobotArmMiddle();
-//    RobotSpinNinety(false);
-//    HAL_Delay(2000);
-//    RobotSpinNinety(false);
+
+    RobotArmMiddle();
+    RobotGrabRightGround();
+    RobotArmMiddle();
+    RobotGrabLeftUp();
+    RobotArmMiddle();
+//
+    RobotMoveForward(40, 100);
+    RobotGrabLeftGround();
+    RobotArmMiddle();
+    RobotGrabRightUp();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 100);
+    RobotArmMiddle();
+    RobotGrabRightGround();
+    RobotArmMiddle();
+    RobotGrabLeftUp();
+    RobotArmMiddle();
+
+//    RobotSpinNinety(true);
 //    refreshFixHeading();
 
 
-     //RoboAllMove();
+//     RoboAllMove();
 
   /* USER CODE END 2 */
 
@@ -182,7 +185,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-      Transmit();
+//      VofaTransmitInc();
+
   }
   /* USER CODE END 3 */
 }

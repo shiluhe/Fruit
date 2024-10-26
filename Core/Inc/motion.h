@@ -59,9 +59,10 @@ namespace RDK{
             double d = 255;  // 两个轮子之间的距离 单位为mm
             // 在二轮差速模型中，可以直接将r/s替代m/s，结果没有影响
             bool left = true;
-            double kp = 0.0710145;
-            double ki = 0.010071;
-            double kd = 0.00015;
+            //位置环PID
+            double kp = 0.07098;
+            double ki = 0.0100;
+            double kd = 0.00016;
             double minTotalError = -10;
             double maxTotalError = 10;  //积分项的最大最小累计误差
 //        RDK::RobotSpin *SpinMotion = nullptr;
@@ -81,7 +82,7 @@ namespace RDK{
 
             void SetLRSpeed(double l_speed, double r_speed);
 
-//        void SetSpinMotion(RobotSpin *SpinMotion);
+//          void SetSpinMotion(RobotSpin *SpinMotion);
 
             void ClearSpeed();
 
@@ -97,17 +98,10 @@ namespace RDK{
 
             void SetPosPID(double p, double i, double d);
 
-            double Move(double speed, double ForwardDis);
-
-//            // 确保 motorLFPosPID 是可访问的
-//            double GetMotorLFOutput()
-//            {return motorLFPosPID.GetOutput();}
-//
-//
-//            // 确保将 motorLFPosPID 声明为类的成员
-//            PID motorLFPosPID;
+            void Move(double speed, double ForwardDis);
 
             void Stop();
+
 
         };
 

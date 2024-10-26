@@ -32,7 +32,7 @@ void RoboTest();
 void RobotMoveLineRadius(double lineSpeed, double Radius, bool left);
 void RobotMoveSpeed(double linespeed);
 
-double RobotMoveForward(double speed, double ForwardDis);
+void RobotMoveForward(double speed, double ForwardDis);
 
 void RobotClearOdometry();
 uint32_t RobotGetOdometry();
@@ -41,7 +41,6 @@ uint32_t RobotGetOdometry();
 void RobotSpinNinety(bool left);
 void RobotFixHeading();
 void refreshFixHeading();
-void Transmit();
 
 ///////////////////机械臂运动/////////////////////////////////////
 void PwmServoCallback1(double pwm_now, double pwm_to_be);
@@ -50,6 +49,8 @@ void RobotInitServo();
 void RobotTestServo();
 
 void RobotArmMiddle();
+void RobotArmMiddleBehind();
+
 void RobotGrabRightUp();
 void RobotGrabRightGround();
 void RobotGrabLeftUp();
@@ -57,8 +58,10 @@ void RobotGrabLeftGround();
 void RobotCGrabLeft();
 void RobotCGrabRight();
 
+///////////////////////////调PID///////////////////////////////////////
+void VofaTransmitInc();
 
-////////////////全局运动///////////////////////////////////////
+//////////////////////////全局运动///////////////////////////////////////
 void RobotBeginVoice(uint8_t Music, uint8_t *HZdata);
 
 

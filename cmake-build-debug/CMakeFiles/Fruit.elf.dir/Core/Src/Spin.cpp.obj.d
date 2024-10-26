@@ -184,4 +184,7 @@ CMakeFiles/Fruit.elf.dir/Core/Src/Spin.cpp.obj: \
  c:\progra~2\armgnu~1\125863~1.3re\arm-none-eabi\include\c++\12.3.1\bits\algorithmfwd.h \
  c:\progra~2\armgnu~1\125863~1.3re\arm-none-eabi\include\c++\12.3.1\bits\stl_heap.h \
  c:\progra~2\armgnu~1\125863~1.3re\arm-none-eabi\include\c++\12.3.1\bits\uniform_int_dist.h \
- c:\progra~2\armgnu~1\125863~1.3re\arm-none-eabi\include\c++\12.3.1\pstl\glue_algorithm_defs.h
+ c:\progra~2\armgnu~1\125863~1.3re\arm-none-eabi\include\c++\12.3.1\pstl\glue_algorithm_defs.h \
+ c:\progra~2\armgnu~1\125863~1.3re\arm-none-eabi\include\string.h \
+ c:\progra~2\armgnu~1\125863~1.3re\arm-none-eabi\include\strings.h \
+ c:\progra~2\armgnu~1\125863~1.3re\arm-none-eabi\include\sys\string.h

@@ -7,6 +7,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <string.h>
 
 using namespace RDK;
 
@@ -106,8 +107,16 @@ void RobotSpin::spin_to(double heading) {
             l_speed = -spin_pid.GetOutput();
             r_speed = spin_pid.GetOutput();
 
+
             set_lr_speed(l_speed, r_speed);
-        }
+
+/////////////////////////Vofa_spinPID////////////////////////////////////////////////////////////////////////////////////////////
+//        char bufferLRFB[32];
+//        sprintf(bufferLRFB, "%f\n", spin_pid.GetInput());
+//        HAL_UART_Transmit(&huart1, (uint8_t *)bufferLRFB, strlen(bufferLRFB),HAL_MAX_DELAY);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    }
 
         stop();
     }
