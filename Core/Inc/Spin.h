@@ -63,9 +63,9 @@ namespace RDK{
         IMU N100;
         RDK::TwoWheelMotion *twoWheelMotion = nullptr;
         double set_now_heading = 0;
-        double max_spin_speed = 60; //Max_spin_speed origin
+        double max_spin_speed = 80; //Max_spin_speed origin
 
-        struct RobotMotionPosPIDParam spin_pid_param = {5, 0, 0, -1, 1}; //原地旋转PID参数
+        struct RobotMotionPosPIDParam spin_pid_param = {10.875, 4, 0, -1, 1}; //原地旋转PID参数
 
         EncodingMotor *motorLF = nullptr;
         EncodingMotor *motorRF = nullptr;

@@ -319,9 +319,9 @@ void RobotMoveSpeed(double lineSpeed)
     twoWheelMotion.ClearSpeed();
     twoWheelMotion.AddLineSpeed(lineSpeed);
     twoWheelMotion.CommitSpeed();
-}
+}//速度环控制
 
-void RobotMoveForward(double speed, double ForwardDis) //ForwardDis单位为cm
+void RobotMoveForward(double speed, double ForwardDis) //ForwardDis单位为cm//位置环控制
 {
     ForwardDis = ForwardDis / 30 * 60000;
     twoWheelMotion.Move(speed, ForwardDis);
@@ -425,6 +425,9 @@ void RobotInitServo(){
 
 void RobotTestServo(){
 
+    PwmServo2.PwmCommitAngle(90,180);
+
+//    BusServo3.MoveBusServoCmd(2/3*PI,1000); //430
     }
 
 
@@ -443,15 +446,14 @@ void RobotArmMiddle()
 }
 
 void RobotArmMiddleBehind(){
-    BusServo2.MoveBusServoCmd(0.4*PI,2000);
-    BusServo1.MoveBusServoCmd(0.8*PI,1000); //600
+    BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
+    BusServo1.MoveBusServoCmd(23.0/30*PI,1000);
     BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
-    HAL_Delay(1800);
-    PwmServo1.PwmCommitAngle(0,360);
-    HAL_Delay(1250);
-    PwmServo2.PwmCommitAngle(90,180);
-    HAL_Delay(1250);
+    HAL_Delay(500); //等待总线舵机完成
 
+    PwmServo1.PwmCommitAngle(262.8,360);
+    PwmServo2.PwmCommitAngle(90,180);
+    HAL_Delay(800);
 }
 
 void RobotGrabRightUp()
@@ -520,20 +522,20 @@ void RobotGrabRightUp()
             HAL_Delay(1000);
 
             //抓取水果 抓取好放回篮子
-            PwmServo2.PwmCommitAngle(65, 180);
+            PwmServo2.PwmCommitAngle(52.5, 180);
             HAL_Delay(500);
-            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470
+            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//前进后退，太前面了容易碰倒板子
             BusServo1.MoveBusServoCmd(59.0/75*PI - AngleOffset,1000); //590
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
             HAL_Delay(1500);
-            PwmServo2.PwmCommitAngle(22,180);//爪子闭合
+            PwmServo2.PwmCommitAngle(18,180);//爪子闭合
             HAL_Delay(1200);
             BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //抬升一下 620/加30
             HAL_Delay(1000);
 
             //机械臂放水果归篮子
             BusServo2.MoveBusServoCmd(0.4*PI,1000); //300
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+//            BusServo3.MoveBusServoCmd(2/3*PI,1000); //500            // 10.27注释掉
             HAL_Delay(1500);
 
             //加激光测距，若抓到（距离小），就播报抓到
@@ -551,12 +553,12 @@ void RobotGrabRightUp()
 void RobotGrabRightGround()
 {
     //准备识别的动作：
+    BusServo2.MoveBusServoCmd(13.0/15*PI,1000); //650
+    BusServo1.MoveBusServoCmd(89.0/150*PI,1000); //455
+    BusServo3.MoveBusServoCmd(44.0/150*PI,1000); //235
     PwmServo1.PwmCommitAngle(82.8,360);
     PwmServo2.PwmCommitAngle(90,180);
 //    HAL_Delay(1000);
-    BusServo2.MoveBusServoCmd(13.0/15*PI,1000); //650
-    BusServo1.MoveBusServoCmd(88.0/150*PI,1000); //455
-    BusServo3.MoveBusServoCmd(46.0/150*PI,1000); //235
     HAL_Delay(2000);
 
     rx_times_flag1 = 0;
@@ -616,9 +618,9 @@ void RobotGrabRightGround()
             //抓取水果 抓取好放回篮子
             BusServo2.MoveBusServoCmd(32.0/30*PI - AngleOffset,1000); //775
             BusServo1.MoveBusServoCmd(40.0/75*PI,1000); //430
-            BusServo3.MoveBusServoCmd(18.0/60*PI,1000); //275
+            BusServo3.MoveBusServoCmd(10.0/30*PI,1000); //275
             HAL_Delay(1500); //总线舵机完成动作的时间
-            PwmServo2.PwmCommitAngle(23,180);
+            PwmServo2.PwmCommitAngle(15,180);
             HAL_Delay(1000); //爪子抓取水果时间
             BusServo2.MoveBusServoCmd(0.4*PI,2000);
             BusServo1.MoveBusServoCmd(0.8*PI,1000); //600
@@ -701,19 +703,24 @@ void RobotGrabLeftUp()
             HAL_Delay(1000);
 
             //抓取水果 抓取好放回篮子
-            PwmServo2.PwmCommitAngle(60, 180);
+            PwmServo2.PwmCommitAngle(52.5, 180);
             HAL_Delay(500);
-            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470
+            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//前进后退，太前面了容易碰倒板子
             BusServo1.MoveBusServoCmd(60.0/75*PI - AngleOffset,1000); //590
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
             HAL_Delay(2000);//改了
-            PwmServo2.PwmCommitAngle(23,180);
+            PwmServo2.PwmCommitAngle(18,180);
             HAL_Delay(1250);
             BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //抬升一下 620/+30
             HAL_Delay(1000);
+
+            //机械臂放水果归篮子
             BusServo2.MoveBusServoCmd(0.4*PI,1000); //300
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+//            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
             HAL_Delay(1250);
+
+            //加激光测距，若抓到（距离小），就播报抓到
+
             PwmServo1.PwmCommitAngle(352.8,360);
             HAL_Delay(1250);
             PwmServo2.PwmCommitAngle(90,180);
@@ -727,12 +734,12 @@ void RobotGrabLeftUp()
 void RobotGrabLeftGround()
 {
     //准备识别的动作：
+    BusServo2.MoveBusServoCmd(13.0/15*PI,1000); //650
+    BusServo1.MoveBusServoCmd(89.0/150*PI,1000); //455
+    BusServo3.MoveBusServoCmd(45.0/150*PI,1000); //235
     PwmServo1.PwmCommitAngle(262.8,360);
     PwmServo2.PwmCommitAngle(90,180);
 //    HAL_Delay(500);
-    BusServo2.MoveBusServoCmd(13.0/15*PI,1000); //650
-    BusServo1.MoveBusServoCmd(89.0/150*PI,1000); //455
-    BusServo3.MoveBusServoCmd(44.0/150*PI,1000); //235
     HAL_Delay(2000);
 
     rx_times_flag1 = 0;
@@ -791,12 +798,12 @@ void RobotGrabLeftGround()
             HAL_Delay(1000);
 
             //抓取水果 抓取好放回篮子
-            BusServo2.MoveBusServoCmd(32.0/30*PI - AngleOffset,1000); //775
-            BusServo1.MoveBusServoCmd(40.0/75*PI,1000); //430
-            BusServo3.MoveBusServoCmd(18.0/60*PI,1000); //275
+            BusServo2.MoveBusServoCmd(127.0/120*PI - AngleOffset,1000); //775
+            BusServo1.MoveBusServoCmd(79.0/150*PI,1000); //430
+            BusServo3.MoveBusServoCmd(45.0/150*PI,1000); //275
             HAL_Delay(1500); //总线舵机完成动作的时间
-            PwmServo2.PwmCommitAngle(22,180);
-            HAL_Delay(1250); //爪子抓取水果时间
+            PwmServo2.PwmCommitAngle(15,180);
+            HAL_Delay(1000); //爪子抓取水果时间//////////////////////////////////有问题，爪子抓取延时
             BusServo2.MoveBusServoCmd(0.4*PI,2000);
             BusServo1.MoveBusServoCmd(0.8*PI,1000); //600
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
@@ -1073,7 +1080,7 @@ void RoboAllMove() {
     RobotGrabLeftUp();
     RobotArmMiddleBehind();
 
-    RobotMoveForward(50, 60);
+    RobotMoveForward(50, 58);  //58=40+18
     RobotSpinNinety(false);
     //更新角度
     ///////////////////////////////////BBBBBBBBBBBBBBBBBBBBBBBBBBB区区/////////////////////////////////////////////////
@@ -1081,7 +1088,7 @@ void RoboAllMove() {
     RobotMoveForward(50, 100);
     RobotSpinNinety(false);
 
-    RobotMoveForward(50, 60);
+    RobotMoveForward(50, 22);  //22=40-18
     RobotArmMiddle();
     RobotGrabRightGround();
     RobotArmMiddle();
@@ -1102,13 +1109,13 @@ void RoboAllMove() {
     RobotGrabLeftUp();
     RobotArmMiddle();
 
-    RobotMoveForward(50, 60);
+    RobotMoveForward(50, 58);
     RobotSpinNinety(true);
     /////////////////////////////////CCCCCCCCCCCCCCCCCCCCCCCCC区区////////////////////////////////////////////////////////
-    RobotMoveForward(50, 122.5);
+    RobotMoveForward(50, 122.5); //B区到C区
     RobotSpinNinety(true);
 
-    RobotMoveForward(50, 44);
+    RobotMoveForward(50, 44);  //C区起点到C区蔬菜处
     RobotCGrabLeft();
     RobotArmMiddle();
     RobotCGrabRight();

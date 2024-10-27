@@ -115,7 +115,6 @@ void RobotSpin::spin_to(double heading) {
 //        sprintf(bufferLRFB, "%f\n", spin_pid.GetInput());
 //        HAL_UART_Transmit(&huart1, (uint8_t *)bufferLRFB, strlen(bufferLRFB),HAL_MAX_DELAY);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     }
 
         stop();
