@@ -59,6 +59,7 @@ void motorCallbackLF(double pwm)
             HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
         }
     }
+
     else
     {
         if(pwm < 0)
@@ -233,34 +234,40 @@ void motorCallbackRB(double pwm)
 void RobotInit()
 {
     //ËÙ¶È»·PID
-    double kp =  2.60, ki =  0.001283, kd =  0.001; //LF
-    double kp3 = 2.60, ki3 = 0.001283, kd3 = 0.001; //LB
-    double kpr = 2.60, kir = 0.001283, kdr = 0.001; //RF
-    double kp4 = 2.60, ki4 = 0.001283, kd4 = 0.001; //RB
+//    double kp =  2.60, ki =  0.001283, kd =  0.001; //LF
+//    double kp3 = 2.60, ki3 = 0.001283, kd3 = 0.001; //LB
+//    double kpr = 2.60, kir = 0.001283, kdr = 0.001; //RF
+//    double kp4 = 2.60, ki4 = 0.001283, kd4 = 0.001; //RB
+
+
+    double kp =  19.98, ki =  4.0057, kd =  0.15; //LF
+    double kp3 = 19.98, ki3 = 4.0057, kd3 = 0.15; //LB
+    double kpr = 19.98, kir = 4.0057, kdr = 0.15; //RF
+    double kp4 = 19.98, ki4 = 4.0057, kd4 = 0.15; //RB
 
     encodingMotorRB.SetPID(kp4, ki4, kd4);
     encodingMotorRB.SetOutputRange(-1000, 1000);
     encodingMotorRB.SetSpeed(0);
     encodingMotorRB.SetCallback(motorCallbackRB);
-    encodingMotorRB.SetReverse(false);
+    encodingMotorRB.SetReverse(true);
 
     encodingMotorLF.SetPID(kp, ki, kd);
     encodingMotorLF.SetOutputRange(-1000,   1000);
     encodingMotorLF.SetSpeed(0);
     encodingMotorLF.SetCallback(motorCallbackLF);
-    encodingMotorLF.SetReverse(true);
+    encodingMotorLF.SetReverse(false);
 
     encodingMotorRF.SetPID(kpr, kir, kdr);
     encodingMotorRF.SetOutputRange(-1000, 1000);
     encodingMotorRF.SetSpeed(0);
     encodingMotorRF.SetCallback(motorCallbackRF);
-    encodingMotorRF.SetReverse(false);
+    encodingMotorRF.SetReverse(true);
 
     encodingMotorLB.SetPID(kp3, ki3, kd3);
     encodingMotorLB.SetOutputRange(-1000, 1000);
     encodingMotorLB.SetSpeed(0);
     encodingMotorLB.SetCallback(motorCallbackLB);
-    encodingMotorLB.SetReverse(true);
+    encodingMotorLB.SetReverse(false);
 
     twoWheelMotion.SetEncodingMotorRB(&encodingMotorRB);
     twoWheelMotion.SetEncodingMotorLF(&encodingMotorLF);
@@ -325,6 +332,58 @@ void RobotMoveForward(double speed, double ForwardDis) //ForwardDisµ¥Î»Îªcm//Î»Ö
 {
     ForwardDis = ForwardDis / 30 * 60000;
     twoWheelMotion.Move(speed, ForwardDis);
+
+}
+
+void turnCar(int angle) {
+    HAL_TIM_Base_Start_IT(&htim6);
+    if (angle > 0) { ///////////////////ÓÒ×ª///////////////////////////////////
+            //LFºó×ª
+            HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 400);
+            //LBºó×ª
+            HAL_GPIO_WritePin(GPIOC,GPIO_PIN_4,GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOC,GPIO_PIN_5,GPIO_PIN_SET);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 400);
+            //RFÇ°×ª
+            HAL_GPIO_WritePin(GPIOG,GPIO_PIN_6,GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOG,GPIO_PIN_7,GPIO_PIN_SET);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 400);
+            //RBÇ°×ª
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_2,GPIO_PIN_SET);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 400);
+
+        }
+        else if (angle < 0){    ////////////////×ó×ª///////////////////////////////////
+            //LFÇ°×ª
+            HAL_GPIO_WritePin(GPIOA,GPIO_PIN_4,GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 400);
+            //LBÇ°×ª
+            HAL_GPIO_WritePin(GPIOC,GPIO_PIN_4,GPIO_PIN_SET);
+            HAL_GPIO_WritePin(GPIOC,GPIO_PIN_5,GPIO_PIN_RESET);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 400);
+            //RFºó×ª
+            HAL_GPIO_WritePin(GPIOG,GPIO_PIN_6,GPIO_PIN_SET);
+            HAL_GPIO_WritePin(GPIOG,GPIO_PIN_7,GPIO_PIN_RESET);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 400);
+            //RBºó×ª
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_SET);
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_2,GPIO_PIN_RESET);
+            __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 400);
+        }
+
+        HAL_TIM_Base_Stop_IT(&htim6);
+}
+
+
+
+void RobotMoveSpinRight(double speed, double ForwardDis) //ForwardDisµ¥Î»Îªcm//Î»ÖÃ»·¿ØÖÆ
+{
+    ForwardDis = ForwardDis / 30 * 60000;
+    twoWheelMotion.MoveSpinRight(speed, ForwardDis);
 }
 
 void RobotSpinNinety(bool left) {
@@ -433,7 +492,6 @@ void RobotTestServo(){
 
 void RobotArmMiddle()
 {
-
     BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
     BusServo1.MoveBusServoCmd(23.0/30*PI,1000);
     BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
@@ -451,7 +509,7 @@ void RobotArmMiddleBehind(){
     BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
     HAL_Delay(500); //µÈ´ý×ÜÏß¶æ»úÍê³É
 
-    PwmServo1.PwmCommitAngle(262.8,360);
+    PwmServo1.PwmCommitAngle(0,360);
     PwmServo2.PwmCommitAngle(90,180);
     HAL_Delay(800);
 }
@@ -459,10 +517,208 @@ void RobotArmMiddleBehind(){
 void RobotGrabRightUp()
 {
     //×¼±¸Ê¶±ðµÄ¶¯×÷£º
-    BusServo2.MoveBusServoCmd(34.0/75*PI,1000);
-    BusServo1.MoveBusServoCmd(47.0/60*PI,1000);
-    BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
-    HAL_Delay(2000);
+    BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
+    BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
+    BusServo3.MoveBusServoCmd(57.0/100*PI,1000);
+    HAL_Delay(1800);
+    PwmServo1.PwmCommitAngle(82.8,360);
+    PwmServo2.PwmCommitAngle(90,180);
+    HAL_Delay(500);
+
+    rx_times_flag1 = 0;
+    int fruit_flag = 0;
+    //¿ªÊ¼Ê¶±ð
+    while(rx_times_flag1<=800)
+    {
+
+        rx_times_flag2 = 0;
+        HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
+
+        int none_flag = 0;
+        HAL_Delay(2000); //Ê¶±ðÁ½Ãë
+
+        HAL_UART_Abort_IT(&huart6);
+        if(!k210_msg_received_flag) none_flag = 1;
+        if (k210_msg_received_flag) k210_msg_received_flag = 0;
+        if (none_flag) break;
+
+
+        if (k210_msg_flag == 1)
+        {
+            k210_msg_flag = 0;
+            if (k210_msg[0] == '5' && k210_msg[1] == '5' && k210_msg[2] == '5' && k210_msg[3] == '5' &&
+                k210_msg[16] == '8' && k210_msg[15] == '8' && k210_msg[14] == '8' && k210_msg[13] == '8')
+            {
+                if (k210_msg[11] == '0' && (k210_msg[12] == '1' || k210_msg[12] == '2'))
+                    fruit_flag = 1;
+                if (k210_msg[11] == '0' && (k210_msg[12] == '4' || k210_msg[12] == '5'))
+                    break;
+            }
+        }
+
+        if (fruit_flag) {
+            //·ÖÎöË®¹ûÆ«ÒÆÁ¿
+            int centerX=0;
+            int centerY=0;
+            char center_x[3];
+            char center_y[3];
+            for (int i=0; i<3; i++)
+            {
+                center_x[i] = k210_msg[i+4];
+                center_y[i] = k210_msg[i+8];
+            }
+            centerX = atoi(center_x);
+            centerY = atoi(center_y);
+            int Xoffset = centerX - 160;
+            double AngleOffset = 0;
+            AngleOffset = -Xoffset * 0.07;
+            PwmServo1.PwmCommitAngle(PwmServo1.GetAngle() + AngleOffset, 360);
+            HAL_Delay(100);
+
+            int Yoffset = centerY - 120;
+            AngleOffset = Yoffset * 0.12;
+            AngleOffset = AngleOffset / 180 * PI;
+            BusServo1.MoveBusServoCmd(BusServo1.GetAngle() - AngleOffset, 1000);
+            HAL_Delay(1000);
+
+            //×¥È¡Ë®¹û ×¥È¡ºÃ·Å»ØÀº×Ó
+            PwmServo2.PwmCommitAngle(50, 180);
+            HAL_Delay(500);
+            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//Ç°½øºóÍË£¬Ì«Ç°ÃæÁËÈÝÒ×Åöµ¹°å×Ó
+            BusServo1.MoveBusServoCmd(52.0/75*PI - AngleOffset,1000); //590
+            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+            HAL_Delay(1500);
+            PwmServo2.PwmCommitAngle(18,180);//×¦×Ó±ÕºÏ
+            HAL_Delay(1200);
+            BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //Ì§ÉýÒ»ÏÂ 620/¼Ó30
+            HAL_Delay(1000);
+
+            //»úÐµ±Û·ÅË®¹û¹éÀº×Ó
+            BusServo2.MoveBusServoCmd(0.5*PI,1000); //300
+            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+            HAL_Delay(1500);
+
+            //¼Ó¼¤¹â²â¾à£¬Èô×¥µ½£¨¾àÀëÐ¡£©£¬¾Í²¥±¨×¥µ½
+            RobotReceivedFruitVoice();
+
+            PwmServo1.PwmCommitAngle(0,360);//×ªÏòºó·½
+            HAL_Delay(1000);
+            PwmServo2.PwmCommitAngle(90,180);//×¦×ÓÕÅ¿ª
+            HAL_Delay(1000);
+            amount_of_fruits++;
+            break;
+        }
+
+    }
+
+
+}
+
+void RobotGrabRightUp1(){
+        //×¼±¸Ê¶±ðµÄ¶¯×÷£º
+        BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
+        BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
+        BusServo3.MoveBusServoCmd(62.0/100*PI,1000);
+        HAL_Delay(1800);
+        PwmServo1.PwmCommitAngle(82.8,360);
+        PwmServo2.PwmCommitAngle(90,180);
+        HAL_Delay(500);
+
+        rx_times_flag1 = 0;
+        //¿ªÊ¼Ê¶±ð
+        while(rx_times_flag1<=800)
+        {
+
+            rx_times_flag2 = 0;
+            HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
+
+            int none_flag = 0;
+            HAL_Delay(2000); //Ê¶±ðÁ½Ãë
+
+            HAL_UART_Abort_IT(&huart6);
+            if(!k210_msg_received_flag) none_flag = 1;
+            if (k210_msg_received_flag) k210_msg_received_flag = 0;
+            if (none_flag) break;
+
+            int fruit_flag = 0;
+            if (k210_msg_flag == 1)
+            {
+                k210_msg_flag = 0;
+                if (k210_msg[0] == '5' && k210_msg[1] == '5' && k210_msg[2] == '5' && k210_msg[3] == '5' &&
+                    k210_msg[16] == '8' && k210_msg[15] == '8' && k210_msg[14] == '8' && k210_msg[13] == '8')
+                {
+                    if (k210_msg[11] == '0' && (k210_msg[12] == '1' || k210_msg[12] == '2'))
+                        fruit_flag = 1;
+                    if (k210_msg[11] == '0' && (k210_msg[12] == '4' || k210_msg[12] == '5'))
+                        break;
+                }
+            }
+
+            if (fruit_flag) {
+                //·ÖÎöË®¹ûÆ«ÒÆÁ¿
+                int centerX=0;
+                int centerY=0;
+                char center_x[3];
+                char center_y[3];
+                for (int i=0; i<3; i++)
+                {
+                    center_x[i] = k210_msg[i+4];
+                    center_y[i] = k210_msg[i+8];
+                }
+                centerX = atoi(center_x);
+                centerY = atoi(center_y);
+                int Xoffset = centerX - 160;
+                double AngleOffset = 0;
+                AngleOffset = -Xoffset * 0.07;
+                PwmServo1.PwmCommitAngle(PwmServo1.GetAngle() + AngleOffset, 360);
+                HAL_Delay(100);
+
+                int Yoffset = centerY - 120;
+                AngleOffset = Yoffset * 0.12;
+                AngleOffset = AngleOffset / 180 * PI;
+                BusServo1.MoveBusServoCmd(BusServo1.GetAngle() - AngleOffset, 1000);
+                HAL_Delay(1000);
+
+                //×¥È¡Ë®¹û ×¥È¡ºÃ·Å»ØÀº×Ó
+                PwmServo2.PwmCommitAngle(50, 180);
+                HAL_Delay(500);
+                BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//Ç°½øºóÍË£¬Ì«Ç°ÃæÁËÈÝÒ×Åöµ¹°å×Ó
+                BusServo1.MoveBusServoCmd(54.0/75*PI - AngleOffset,1000); //590
+                BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+                HAL_Delay(1500);
+                PwmServo2.PwmCommitAngle(18,180);//×¦×Ó±ÕºÏ
+                HAL_Delay(1200);
+                BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //Ì§ÉýÒ»ÏÂ 620/¼Ó30
+                HAL_Delay(1000);
+
+                //»úÐµ±Û·ÅË®¹û¹éÀº×Ó
+                BusServo2.MoveBusServoCmd(0.5*PI,1000); //300
+                BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+                HAL_Delay(1500);
+
+                //¼Ó¼¤¹â²â¾à£¬Èô×¥µ½£¨¾àÀëÐ¡£©£¬¾Í²¥±¨×¥µ½
+                RobotReceivedFruitVoice();
+
+                PwmServo1.PwmCommitAngle(0,360);//×ªÏòºó·½
+                HAL_Delay(1000);
+                PwmServo2.PwmCommitAngle(90,180);//×¦×ÓÕÅ¿ª
+                HAL_Delay(1000);
+                amount_of_fruits++;
+                break;
+
+            }
+
+        }
+
+}
+
+void RobotGrabRightUp2()
+{
+    //×¼±¸Ê¶±ðµÄ¶¯×÷£º
+    BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
+    BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
+    BusServo3.MoveBusServoCmd(67.0/100*PI,1000);
+    HAL_Delay(1800);
     PwmServo1.PwmCommitAngle(82.8,360);
     PwmServo2.PwmCommitAngle(90,180);
     HAL_Delay(500);
@@ -471,11 +727,12 @@ void RobotGrabRightUp()
     //¿ªÊ¼Ê¶±ð
     while(rx_times_flag1<=800)
     {
+
         rx_times_flag2 = 0;
         HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
 
         int none_flag = 0;
-        HAL_Delay(3000); //Ê¶±ðÁ½Ãë
+        HAL_Delay(2000); //Ê¶±ðÁ½Ãë
 
         HAL_UART_Abort_IT(&huart6);
         if(!k210_msg_received_flag) none_flag = 1;
@@ -522,10 +779,10 @@ void RobotGrabRightUp()
             HAL_Delay(1000);
 
             //×¥È¡Ë®¹û ×¥È¡ºÃ·Å»ØÀº×Ó
-            PwmServo2.PwmCommitAngle(52.5, 180);
+            PwmServo2.PwmCommitAngle(50, 180);
             HAL_Delay(500);
             BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//Ç°½øºóÍË£¬Ì«Ç°ÃæÁËÈÝÒ×Åöµ¹°å×Ó
-            BusServo1.MoveBusServoCmd(59.0/75*PI - AngleOffset,1000); //590
+            BusServo1.MoveBusServoCmd(56.0/75*PI - AngleOffset,1000); //590
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
             HAL_Delay(1500);
             PwmServo2.PwmCommitAngle(18,180);//×¦×Ó±ÕºÏ
@@ -534,11 +791,12 @@ void RobotGrabRightUp()
             HAL_Delay(1000);
 
             //»úÐµ±Û·ÅË®¹û¹éÀº×Ó
-            BusServo2.MoveBusServoCmd(0.4*PI,1000); //300
-//            BusServo3.MoveBusServoCmd(2/3*PI,1000); //500            // 10.27×¢ÊÍµô
+            BusServo2.MoveBusServoCmd(0.5*PI,1000); //300
+            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
             HAL_Delay(1500);
 
             //¼Ó¼¤¹â²â¾à£¬Èô×¥µ½£¨¾àÀëÐ¡£©£¬¾Í²¥±¨×¥µ½
+            RobotReceivedFruitVoice();
 
             PwmServo1.PwmCommitAngle(0,360);//×ªÏòºó·½
             HAL_Delay(1000);
@@ -546,15 +804,18 @@ void RobotGrabRightUp()
             HAL_Delay(1000);
             amount_of_fruits++;
             break;
+
         }
+
     }
+
 }
 
 void RobotGrabRightGround()
 {
     //×¼±¸Ê¶±ðµÄ¶¯×÷£º
     BusServo2.MoveBusServoCmd(13.0/15*PI,1000); //650
-    BusServo1.MoveBusServoCmd(89.0/150*PI,1000); //455
+    BusServo1.MoveBusServoCmd(86.0/150*PI,1000); //455
     BusServo3.MoveBusServoCmd(44.0/150*PI,1000); //235
     PwmServo1.PwmCommitAngle(82.8,360);
     PwmServo2.PwmCommitAngle(90,180);
@@ -569,7 +830,7 @@ void RobotGrabRightGround()
         HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
 
         int none_flag = 0;
-        HAL_Delay(3000); //Ê¶±ðÁ½Ãë
+        HAL_Delay(2000); //Ê¶±ðÁ½Ãë
 
         HAL_UART_Abort_IT(&huart6);
         if(!k210_msg_received_flag) none_flag = 1;
@@ -616,16 +877,23 @@ void RobotGrabRightGround()
             HAL_Delay(1000);
 
             //×¥È¡Ë®¹û ×¥È¡ºÃ·Å»ØÀº×Ó
-            BusServo2.MoveBusServoCmd(32.0/30*PI - AngleOffset,1000); //775
-            BusServo1.MoveBusServoCmd(40.0/75*PI,1000); //430
+            BusServo2.MoveBusServoCmd(157.0/150*PI - AngleOffset,1000); //775
+            BusServo1.MoveBusServoCmd(38.0/75*PI,1000); //430
             BusServo3.MoveBusServoCmd(10.0/30*PI,1000); //275
             HAL_Delay(1500); //×ÜÏß¶æ»úÍê³É¶¯×÷µÄÊ±¼ä
             PwmServo2.PwmCommitAngle(15,180);
             HAL_Delay(1000); //×¦×Ó×¥È¡Ë®¹ûÊ±¼ä
+
+
             BusServo2.MoveBusServoCmd(0.4*PI,2000);
             BusServo1.MoveBusServoCmd(0.8*PI,1000); //600
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
             HAL_Delay(1800);
+
+            //¼Ó¼¤¹â²â¾à£¬Èô×¥µ½£¨¾àÀëÐ¡£©£¬¾Í²¥±¨×¥µ½
+            RobotReceivedVegetableVoice();
+
+
             PwmServo1.PwmCommitAngle(0,360);
             HAL_Delay(1250);
             PwmServo2.PwmCommitAngle(90,180);
@@ -639,10 +907,10 @@ void RobotGrabRightGround()
 void RobotGrabLeftUp()
 {
     //×¼±¸Ê¶±ðµÄ¶¯×÷£º
-    BusServo2.MoveBusServoCmd(35.0/75*PI,1000);
-    BusServo1.MoveBusServoCmd(47.0/60*PI,1000);
-    BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
-    HAL_Delay(2000);
+    BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
+    BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
+    BusServo3.MoveBusServoCmd(57.0/100*PI,1000);
+    HAL_Delay(1800);
     PwmServo1.PwmCommitAngle(260.8,360);
     PwmServo2.PwmCommitAngle(90,180);
     HAL_Delay(500);
@@ -655,7 +923,7 @@ void RobotGrabLeftUp()
         HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
 
         int none_flag = 0;
-        HAL_Delay(5000); //Ê¶±ðÁ½Ãë
+        HAL_Delay(2000); //Ê¶±ðÁ½Ãë
 
         HAL_UART_Abort_IT(&huart6);
         if(!k210_msg_received_flag) none_flag = 1;
@@ -703,10 +971,10 @@ void RobotGrabLeftUp()
             HAL_Delay(1000);
 
             //×¥È¡Ë®¹û ×¥È¡ºÃ·Å»ØÀº×Ó
-            PwmServo2.PwmCommitAngle(52.5, 180);
-            HAL_Delay(500);
+            PwmServo2.PwmCommitAngle(50, 180);
+            HAL_Delay(800);
             BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//Ç°½øºóÍË£¬Ì«Ç°ÃæÁËÈÝÒ×Åöµ¹°å×Ó
-            BusServo1.MoveBusServoCmd(60.0/75*PI - AngleOffset,1000); //590
+            BusServo1.MoveBusServoCmd(47.0/75*PI - AngleOffset,1000); //590
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
             HAL_Delay(2000);//¸ÄÁË
             PwmServo2.PwmCommitAngle(18,180);
@@ -715,11 +983,12 @@ void RobotGrabLeftUp()
             HAL_Delay(1000);
 
             //»úÐµ±Û·ÅË®¹û¹éÀº×Ó
-            BusServo2.MoveBusServoCmd(0.4*PI,1000); //300
-//            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+            BusServo2.MoveBusServoCmd(0.5*PI,1000); //300
+            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
             HAL_Delay(1250);
 
             //¼Ó¼¤¹â²â¾à£¬Èô×¥µ½£¨¾àÀëÐ¡£©£¬¾Í²¥±¨×¥µ½
+            RobotReceivedFruitVoice();
 
             PwmServo1.PwmCommitAngle(352.8,360);
             HAL_Delay(1250);
@@ -731,16 +1000,16 @@ void RobotGrabLeftUp()
     }
 }
 
-void RobotGrabLeftGround()
+void RobotGrabLeftUp1()
 {
     //×¼±¸Ê¶±ðµÄ¶¯×÷£º
-    BusServo2.MoveBusServoCmd(13.0/15*PI,1000); //650
-    BusServo1.MoveBusServoCmd(89.0/150*PI,1000); //455
-    BusServo3.MoveBusServoCmd(45.0/150*PI,1000); //235
-    PwmServo1.PwmCommitAngle(262.8,360);
+    BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
+    BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
+    BusServo3.MoveBusServoCmd(63.0/100*PI,1000);
+    HAL_Delay(1800);
+    PwmServo1.PwmCommitAngle(260.8,360);
     PwmServo2.PwmCommitAngle(90,180);
-//    HAL_Delay(500);
-    HAL_Delay(2000);
+    HAL_Delay(500);
 
     rx_times_flag1 = 0;
     //¿ªÊ¼Ê¶±ð
@@ -749,8 +1018,8 @@ void RobotGrabLeftGround()
         rx_times_flag2 = 0;
         HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
 
-        HAL_Delay(3000);
         int none_flag = 0;
+        HAL_Delay(2000); //Ê¶±ðÁ½Ãë
 
         HAL_UART_Abort_IT(&huart6);
         if(!k210_msg_received_flag) none_flag = 1;
@@ -768,6 +1037,199 @@ void RobotGrabLeftGround()
                     fruit_flag = 1;
                 if (k210_msg[11] == '0' && (k210_msg[12] == '4' || k210_msg[12] == '5'))
                     break;
+            }
+
+        }
+
+        if (fruit_flag) {
+            //·ÖÎöË®¹ûÆ«ÒÆÁ¿
+            int centerX=0;
+            int centerY=0;
+            char center_x[3];
+            char center_y[3];
+            for (int i=0; i<3; i++)
+            {
+                center_x[i] = k210_msg[i+4];
+                center_y[i] = k210_msg[i+8];
+            }
+            centerX = atoi(center_x);
+            centerY = atoi(center_y);
+            int Xoffset = centerX - 160;
+            double AngleOffset = 0;
+            AngleOffset = -Xoffset * 0.07;
+            PwmServo1.PwmCommitAngle(PwmServo1.GetAngle() + AngleOffset, 360);
+            HAL_Delay(100);
+
+            int Yoffset = centerY - 120;
+            AngleOffset = Yoffset * 0.12;
+            AngleOffset = AngleOffset / 180 * PI;
+            BusServo1.MoveBusServoCmd(BusServo1.GetAngle() - AngleOffset, 1000);
+            HAL_Delay(1000);
+
+            //×¥È¡Ë®¹û ×¥È¡ºÃ·Å»ØÀº×Ó
+            PwmServo2.PwmCommitAngle(50, 180);
+            HAL_Delay(800);
+            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//Ç°½øºóÍË£¬Ì«Ç°ÃæÁËÈÝÒ×Åöµ¹°å×Ó
+            BusServo1.MoveBusServoCmd(48.0/75*PI - AngleOffset,1000); //590
+            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+            HAL_Delay(2000);//¸ÄÁË
+            PwmServo2.PwmCommitAngle(18,180);
+            HAL_Delay(1250);
+            BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //Ì§ÉýÒ»ÏÂ 620/+30
+            HAL_Delay(1000);
+
+            //»úÐµ±Û·ÅË®¹û¹éÀº×Ó
+            BusServo2.MoveBusServoCmd(0.5*PI,1000); //300
+            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+            HAL_Delay(1250);
+
+            //¼Ó¼¤¹â²â¾à£¬Èô×¥µ½£¨¾àÀëÐ¡£©£¬¾Í²¥±¨×¥µ½
+            RobotReceivedFruitVoice();
+
+            PwmServo1.PwmCommitAngle(352.8,360);
+            HAL_Delay(1250);
+            PwmServo2.PwmCommitAngle(90,180);
+            HAL_Delay(1250);//»úÐµ±Û·ÅË®¹û¹éÀº×Ó
+            amount_of_fruits++;
+            break;
+        }
+    }
+}
+
+void RobotGrabLeftUp2()
+{
+    //×¼±¸Ê¶±ðµÄ¶¯×÷£º
+    BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
+    BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
+    BusServo3.MoveBusServoCmd(68.0/100*PI,1000);
+    HAL_Delay(1800);
+    PwmServo1.PwmCommitAngle(260.8,360);
+    PwmServo2.PwmCommitAngle(90,180);
+    HAL_Delay(500);
+
+    rx_times_flag1 = 0;
+    //¿ªÊ¼Ê¶±ð
+    while(rx_times_flag1<=800)
+    {
+        rx_times_flag2 = 0;
+        HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
+
+        int none_flag = 0;
+        HAL_Delay(2000); //Ê¶±ðÁ½Ãë
+
+        HAL_UART_Abort_IT(&huart6);
+        if(!k210_msg_received_flag) none_flag = 1;
+        if (k210_msg_received_flag) k210_msg_received_flag = 0;
+        if (none_flag) break;
+
+        int fruit_flag = 0;
+        if (k210_msg_flag == 1)
+        {
+            k210_msg_flag = 0;
+            if (k210_msg[0] == '5' && k210_msg[1] == '5' && k210_msg[2] == '5' && k210_msg[3] == '5' &&
+                k210_msg[16] == '8' && k210_msg[15] == '8' && k210_msg[14] == '8' && k210_msg[13] == '8')
+            {
+                if (k210_msg[11] == '0' && (k210_msg[12] == '1' || k210_msg[12] == '2'))
+                    fruit_flag = 1;
+                if (k210_msg[11] == '0' && (k210_msg[12] == '4' || k210_msg[12] == '5'))
+                    break;
+            }
+
+        }
+
+        if (fruit_flag) {
+            //·ÖÎöË®¹ûÆ«ÒÆÁ¿
+            int centerX=0;
+            int centerY=0;
+            char center_x[3];
+            char center_y[3];
+            for (int i=0; i<3; i++)
+            {
+                center_x[i] = k210_msg[i+4];
+                center_y[i] = k210_msg[i+8];
+            }
+            centerX = atoi(center_x);
+            centerY = atoi(center_y);
+            int Xoffset = centerX - 160;
+            double AngleOffset = 0;
+            AngleOffset = -Xoffset * 0.07;
+            PwmServo1.PwmCommitAngle(PwmServo1.GetAngle() + AngleOffset, 360);
+            HAL_Delay(100);
+
+            int Yoffset = centerY - 120;
+            AngleOffset = Yoffset * 0.12;
+            AngleOffset = AngleOffset / 180 * PI;
+            BusServo1.MoveBusServoCmd(BusServo1.GetAngle() - AngleOffset, 1000);
+            HAL_Delay(1000);
+
+            //×¥È¡Ë®¹û ×¥È¡ºÃ·Å»ØÀº×Ó
+            PwmServo2.PwmCommitAngle(50, 180);
+            HAL_Delay(800);
+            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//Ç°½øºóÍË£¬Ì«Ç°ÃæÁËÈÝÒ×Åöµ¹°å×Ó
+            BusServo1.MoveBusServoCmd(49.0/75*PI - AngleOffset,1000); //590
+            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+            HAL_Delay(2000);//¸ÄÁË
+            PwmServo2.PwmCommitAngle(18,180);
+            HAL_Delay(1250);
+            BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //Ì§ÉýÒ»ÏÂ 620/+30
+            HAL_Delay(1000);
+
+            //»úÐµ±Û·ÅË®¹û¹éÀº×Ó
+            BusServo2.MoveBusServoCmd(0.5*PI,1000); //300
+            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+            HAL_Delay(1250);
+
+            //¼Ó¼¤¹â²â¾à£¬Èô×¥µ½£¨¾àÀëÐ¡£©£¬¾Í²¥±¨×¥µ½
+            RobotReceivedFruitVoice();
+
+            PwmServo1.PwmCommitAngle(352.8,360);
+            HAL_Delay(1250);
+            PwmServo2.PwmCommitAngle(90,180);
+            HAL_Delay(1250);//»úÐµ±Û·ÅË®¹û¹éÀº×Ó
+            amount_of_fruits++;
+            break;
+        }
+    }
+}
+
+void RobotGrabLeftGround()
+{
+    //×¼±¸Ê¶±ðµÄ¶¯×÷£º
+    BusServo2.MoveBusServoCmd(13.0/15*PI,1000); //650
+    BusServo1.MoveBusServoCmd(88.0/150*PI,1000); //455
+    BusServo3.MoveBusServoCmd(45.0/150*PI,1000); //235
+    PwmServo1.PwmCommitAngle(262.8,360);
+    PwmServo2.PwmCommitAngle(90,180);
+
+    HAL_Delay(2000);
+
+    rx_times_flag1 = 0;
+    //¿ªÊ¼Ê¶±ð
+    while(rx_times_flag1<=800)
+    {
+        rx_times_flag2 = 0;
+        HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
+
+        HAL_Delay(2000);
+        int none_flag = 0;
+
+        HAL_UART_Abort_IT(&huart6);
+        if(!k210_msg_received_flag) none_flag = 1;
+        if (k210_msg_received_flag) k210_msg_received_flag = 0;
+        if (none_flag) break;
+
+        int fruit_flag = 0;
+        if (k210_msg_flag == 1)
+        {
+            k210_msg_flag = 0;
+            if (k210_msg[0] == '5' && k210_msg[1] == '5' && k210_msg[2] == '5' && k210_msg[3] == '5' &&
+                k210_msg[16] == '8' && k210_msg[15] == '8' && k210_msg[14] == '8' && k210_msg[13] == '8')
+            {
+                if (k210_msg[11] == '0' && (k210_msg[12] == '1' || k210_msg[12] == '2'))
+                    fruit_flag = 1;
+                if (k210_msg[11] == '0' && (k210_msg[12] == '4' || k210_msg[12] == '5'))//Ã»ÓÐÊ¶±ðµ½
+                    break;
+
             }
 
         }
@@ -800,14 +1262,20 @@ void RobotGrabLeftGround()
             //×¥È¡Ë®¹û ×¥È¡ºÃ·Å»ØÀº×Ó
             BusServo2.MoveBusServoCmd(127.0/120*PI - AngleOffset,1000); //775
             BusServo1.MoveBusServoCmd(79.0/150*PI,1000); //430
-            BusServo3.MoveBusServoCmd(45.0/150*PI,1000); //275
+            BusServo3.MoveBusServoCmd(47.0/150*PI,1000); //275
             HAL_Delay(1500); //×ÜÏß¶æ»úÍê³É¶¯×÷µÄÊ±¼ä
             PwmServo2.PwmCommitAngle(15,180);
-            HAL_Delay(1000); //×¦×Ó×¥È¡Ë®¹ûÊ±¼ä//////////////////////////////////ÓÐÎÊÌâ£¬×¦×Ó×¥È¡ÑÓÊ±
+            HAL_Delay(1000);
+
             BusServo2.MoveBusServoCmd(0.4*PI,2000);
             BusServo1.MoveBusServoCmd(0.8*PI,1000); //600
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
             HAL_Delay(2100);
+
+            //¼Ó¼¤¹â²â¾à£¬Èô×¥µ½£¨¾àÀëÐ¡£©£¬¾Í²¥±¨×¥µ½
+            RobotReceivedVegetableVoice();
+
+
             PwmServo1.PwmCommitAngle(352.8,360);
             HAL_Delay(1250);
             PwmServo2.PwmCommitAngle(90,180);
@@ -1013,6 +1481,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
             ahrs_data_buffer1[i] = ahrs_data_buffer[i];
         }
     }
+
 }
 
 ////////////////////////////////////È«³ÌÔË¶¯/////////////////////////////////////////////////////
@@ -1053,7 +1522,56 @@ void RobotBeginVoice(uint8_t Music, uint8_t *HZdata)
 }
 
 
+
 void RobotReceivedFruitVoice() {
+
+    uint8_t rx_buffer[50];  // ½ÓÊÕ»º³åÇø
+    // ½ÓÊÕ VL53-400S ·¢ËÍµÄÊý¾Ý
+    if (HAL_UART_Receive(&huart3, rx_buffer, sizeof(rx_buffer), 1000) == HAL_OK)
+    {
+        // Êý¾Ý¸ñÊ½Îª "Distance:xxxx"
+        char *distance_ptr = strstr((char *)rx_buffer, "Distance: ");   //²éÕÒ"Distance:"×Ö·û´®
+        if (distance_ptr != NULL)
+        {
+            uint16_t distance;
+            sscanf(distance_ptr, "Distance: %hu", &distance);   //½«×Ö·û´®ºóÃæµÄÊý×Ö´¢´æÔÚdistanceÖÐ
+
+            if (distance <= 90){
+                RobotBeginVoice(0, (uint8_t *)"[v12][m0][t5]×¥È¡µ½Ë®¹ûÒ»¸ö");
+                HAL_Delay(2000);
+            }
+            else{
+                RobotBeginVoice(0, (uint8_t *)"[v12][m0][t5]Ã»ÓÐ×¥È¡µ½Ë®¹û");
+                HAL_Delay(2000);
+            }
+        }
+    }
+
+}
+
+void RobotReceivedVegetableVoice() {
+
+    uint8_t rx_buffer[50];  // ½ÓÊÕ»º³åÇø
+    // ½ÓÊÕ VL53-400S ·¢ËÍµÄÊý¾Ý
+    if (HAL_UART_Receive(&huart3, rx_buffer, sizeof(rx_buffer), 1000) == HAL_OK)
+    {
+        // Êý¾Ý¸ñÊ½Îª "Distance:xxxx"
+        char *distance_ptr = strstr((char *)rx_buffer, "Distance: ");   //²éÕÒ"Distance:"×Ö·û´®
+        if (distance_ptr != NULL)
+        {
+            uint16_t distance;
+            sscanf(distance_ptr, "Distance: %hu", &distance);   //½«×Ö·û´®ºóÃæµÄÊý×Ö´¢´æÔÚdistanceÖÐ
+
+            if (distance <= 80){
+                RobotBeginVoice(0, (uint8_t *)"[v12][m0][t5]×¥È¡µ½Êß²ËÒ»¸ö");
+                HAL_Delay(2000);
+            }
+            else{
+                RobotBeginVoice(0, (uint8_t *)"[v12][m0][t5]Ã»ÓÐ×¥È¡µ½Êß²Ë");
+                HAL_Delay(2000);
+            }
+        }
+    }
 
 }
 
@@ -1080,15 +1598,15 @@ void RoboAllMove() {
     RobotGrabLeftUp();
     RobotArmMiddleBehind();
 
-    RobotMoveForward(50, 58);  //58=40+18
+    RobotMoveForward(50, 52);  //58=40+18
     RobotSpinNinety(false);
     //¸üÐÂ½Ç¶È
     ///////////////////////////////////BBBBBBBBBBBBBBBBBBBBBBBBBBBÇøÇø/////////////////////////////////////////////////
 
-    RobotMoveForward(50, 100);
+    RobotMoveForward(50, 96);
     RobotSpinNinety(false);
 
-    RobotMoveForward(50, 22);  //22=40-18
+    RobotMoveForward(50, 20);  //22=40-18
     RobotArmMiddle();
     RobotGrabRightGround();
     RobotArmMiddle();
@@ -1109,10 +1627,10 @@ void RoboAllMove() {
     RobotGrabLeftUp();
     RobotArmMiddle();
 
-    RobotMoveForward(50, 58);
+    RobotMoveForward(50, 52);
     RobotSpinNinety(true);
     /////////////////////////////////CCCCCCCCCCCCCCCCCCCCCCCCCÇøÇø////////////////////////////////////////////////////////
-    RobotMoveForward(50, 122.5); //BÇøµ½CÇø
+    RobotMoveForward(50, 123); //BÇøµ½CÇø
     RobotSpinNinety(true);
 
     RobotMoveForward(50, 44);  //CÇøÆðµãµ½CÇøÊß²Ë´¦

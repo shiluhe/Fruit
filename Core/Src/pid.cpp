@@ -266,6 +266,5 @@ namespace RDK
         return GetOutput();
     }
 
-
 }
 

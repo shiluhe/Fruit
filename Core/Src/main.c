@@ -112,12 +112,13 @@ int main(void)
   MX_UART4_Init();
   MX_USART6_UART_Init();
   MX_USART3_UART_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   //Init
-//
-//    HAL_Delay(5000); //延迟5秒是为了稳定惯导的度数???
-//
-//    __HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE); //关闭接收完成事件中断
+
+    HAL_Delay(5000); //延迟5秒是为了稳定惯导的度数???
+
+    __HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE); //关闭接收完成事件中断
 
 
     HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
@@ -143,66 +144,8 @@ int main(void)
     RobotBeginVoice(0, (uint8_t *)"[v12][m0][t5]榴莲味招租队准备开始比赛");
     HAL_Delay(4500);//语音播报时间
 
-//    RobotMoveForward(50, 48);//前轮到出发线8cm
-//    RobotArmMiddle();
-//    RobotGrabRightGround();
-//    RobotArmMiddle();
-//    RobotGrabLeftUp();
-//    RobotArmMiddle();
-//RobotTestServo();
-//
-//    RobotMoveForward(50, 100);
-//    RobotArmMiddle();
-    RobotGrabRightUp();
-    RobotArmMiddle();
-    RobotGrabLeftGround();
-    RobotArmMiddle();
-//
-//    RobotMoveForward(50, 100);
-//    RobotArmMiddle();
-//    RobotGrabRightGround();
-//    RobotArmMiddle();
-//    RobotGrabLeftUp();
 
-
-//    RobotMoveForward(50, 58);  //58=40+18
-//    RobotSpinNinety(false);
-
-
-
-//    RobotMoveForward(40, 48);
-//    RobotArmMiddle();
-//    RobotGrabRightGround();
-//    RobotArmMiddle();
-//    RobotGrabLeftUp();
-//    RobotArmMiddle();
-
-
-//    RobotMoveSpeed(40);
-//    HAL_Delay(1000);
-//    RobotSpinNinety(false);
-//    RobotMoveForward(40, 30);
-
-//
-//    RobotMoveForward(40, 100);
-//    RobotGrabLeftGround();
-//    RobotArmMiddle();
-//    RobotGrabRightUp();
-//    RobotArmMiddle();
-//
-//    RobotMoveForward(40, 100);
-//    RobotArmMiddle();
-//    RobotGrabRightGround();
-//    RobotArmMiddle();
-//    RobotGrabLeftUp();
-//    RobotArmMiddle();
-
-//    RobotSpinNinety(false);
-//    RobotMoveForward(50, 306);
-//    refreshFixHeading();
-
-
-//     RoboAllMove();
+    RoboAllMove();
 
   /* USER CODE END 2 */
 
@@ -274,6 +217,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
     if (htim->Instance == TIM7) {
         RoboTick();
         //RoboTest();
+    }
+
+    if(htim->Instance == TIM6)
+    {
+        __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 0);
+        __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
+        __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
+        __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 0);
     }
 }
 /* USER CODE END 4 */

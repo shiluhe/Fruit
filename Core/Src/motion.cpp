@@ -188,7 +188,7 @@ namespace RDK {
 
 ///////////////////////////////////////////////////Vofa_PosPID///////////////////////////////////////////////////////////////////////////////////////////////
 //                char bufferLRFB[128];
-//                sprintf(bufferLRFB, "%f\n", motorLFPosPID.GetInput()/60000);//所有的pulse之和
+//                sprintf(bufferLRFB, "%f,%f,%f,%f\n", motorLFPosPID.GetInput()/60000, motorRFPosPID.GetInput()/60000 ,motorLBPosPID.GetInput()/60000 ,motorRBPosPID.GetInput()/60000);//所有的pulse之和
 //                HAL_UART_Transmit(&huart1, (uint8_t *)bufferLRFB, strlen(bufferLRFB),HAL_MAX_DELAY);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             CommitSpeed();
@@ -201,6 +201,84 @@ namespace RDK {
        //return flag;
     }
 
+    void TwoWheelMotion::MoveSpinRight(double speed, double ForwardDis) {
+        PID motorRBPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
+        PID motorRFPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
+        PID motorLBPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
+        PID motorLFPosPID(RDK::PIDType::Pos, this->kp, this->ki, this->kd);//使用位置式PID进行控制使得小车定距离移动
+
+        if (speed < 0) speed = -speed;
+        motorRBPosPID.SetTotalErrorRange(minTotalError, maxTotalError);
+        motorRFPosPID.SetTotalErrorRange(minTotalError, maxTotalError);
+        motorLBPosPID.SetTotalErrorRange(minTotalError, maxTotalError);
+        motorLFPosPID.SetTotalErrorRange(minTotalError, maxTotalError);//设置累计误差范围
+
+        motorRBPosPID.SetOutputRange(-speed, speed);
+        motorRFPosPID.SetOutputRange(-speed, speed);
+        motorLBPosPID.SetOutputRange(-speed, speed);
+        motorLFPosPID.SetOutputRange(-speed, speed);//设置输出范围
+
+        //先处理好直走再来处理转弯，假设ForwardDis是目标脉冲数
+        double motorRBTargetDis = ForwardDis;
+        double motorLBTargetDis = ForwardDis;
+        double motorRFTargetDis = ForwardDis;
+        double motorLFTargetDis = ForwardDis;
+        //原有脉冲数清0，进行下一次完整的运动
+        this->motorRB->ClearPulse();
+        this->motorRF->ClearPulse();
+        this->motorLB->ClearPulse();
+        this->motorLF->ClearPulse();
+
+        this->motorLF->SetReverse(true);
+        this->motorLB->SetReverse(true);
+        this->motorRF->SetReverse(true);
+        this->motorRB->SetReverse(true);
+
+        motorRBPosPID.SetTarget(motorRBTargetDis);  //设置目标距离所需脉冲数
+        motorRFPosPID.SetTarget(motorRFTargetDis);  //设置目标距离所需脉冲数
+        motorLBPosPID.SetTarget(motorLBTargetDis);  //设置目标距离所需脉冲数
+        motorLFPosPID.SetTarget(motorLFTargetDis);  //设置目标距离所需脉冲数
+
+        int timeout = ForwardDis * 0.65; //超时计数器，防止无限阻塞
+        while (true)
+        {
+            if (std::fabs(motorLF->GetPulse() - motorLFTargetDis) < 5 &&
+                std::fabs(motorLB->GetPulse() - motorLBTargetDis) < 5 &&
+                std::fabs(motorRF->GetPulse() - motorRFTargetDis) < 5 &&
+                std::fabs(motorRB->GetPulse() - motorRBTargetDis) < 5)
+            {
+                break;
+            }
+            if (timeout <= 0) {
+                break;
+            }
+
+            motorRBPosPID.SetInput(motorRB->GetPulse());//调用PID
+            motorRBPosPID.Tick();
+            motorLBPosPID.SetInput(motorLB->GetPulse());
+            motorLBPosPID.Tick();
+            motorRFPosPID.SetInput(motorRF->GetPulse());
+            motorRFPosPID.Tick();
+            motorLFPosPID.SetInput(motorLF->GetPulse());
+            motorLFPosPID.Tick();
+
+
+            ClearSpeed();
+            motorRBSpeed += motorRBPosPID.GetOutput();
+            motorLBSpeed += motorLBPosPID.GetOutput();
+            motorRFSpeed += motorRFPosPID.GetOutput();
+            motorLFSpeed += motorLFPosPID.GetOutput();
+
+            CommitSpeed();
+            timeout--;
+
+        }
+        ClearSpeed();
+        CommitSpeed();
+        //Stop();
+        //return flag;
+    }
+
     void TwoWheelMotion::Stop()
     {
         ClearSpeed();
@@ -211,8 +289,9 @@ namespace RDK {
         if (motorRB) motorRB->SetReverse(true); //准备直走
     }
 
+
     void TwoWheelMotion::SetLRSpeed(double l_speed, double r_speed) {
-        if (l_speed < 0 && r_speed > 0) {   //向右
+        if (l_speed < 0 && r_speed > 0) {   //向左
             l_speed = -l_speed;
             if (motorLF)
                 motorLF->SetReverse(true);
@@ -222,7 +301,7 @@ namespace RDK {
                 motorRB->SetReverse(true);
             if (motorRF)
                 motorRF->SetReverse(true);
-        } else if (r_speed < 0 && l_speed > 0) {  //向左
+        } else if (r_speed < 0 && l_speed > 0) {  //向右
             r_speed = -r_speed;
             if (motorLF)
                 motorLF->SetReverse(false);
@@ -234,6 +313,7 @@ namespace RDK {
                 motorRF->SetReverse(false);
         }
 
+//        ClearSpeed();
         motorLFSpeed = l_speed;
         motorLBSpeed = l_speed;
         motorRFSpeed = r_speed;

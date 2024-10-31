@@ -100,6 +100,8 @@ namespace RDK{
 
             void Move(double speed, double ForwardDis);
 
+            void MoveSpinRight(double speed, double ForwardDis);
+
             void Stop();
 
 

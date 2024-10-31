@@ -33,6 +33,9 @@ void RobotMoveLineRadius(double lineSpeed, double Radius, bool left);
 void RobotMoveSpeed(double linespeed);
 
 void RobotMoveForward(double speed, double ForwardDis);
+void turnCar(int angle);
+void RobotMoveSpinRight(double speed, double ForwardDis);
+
 
 void RobotClearOdometry();
 uint32_t RobotGetOdometry();
@@ -52,11 +55,24 @@ void RobotArmMiddle();
 void RobotArmMiddleBehind();
 
 void RobotGrabRightUp();
+void RobotGrabRightUp1();
+void RobotGrabRightUp2();
+
 void RobotGrabRightGround();
+
 void RobotGrabLeftUp();
+void RobotGrabLeftUp1();
+void RobotGrabLeftUp2();
+
 void RobotGrabLeftGround();
 void RobotCGrabLeft();
 void RobotCGrabRight();
+
+
+void RobotGrabRightUpA();
+void RobotGrabRightGroundA();
+void RobotGrabLeftUpA();
+void RobotGrabLeftGroundA();
 
 ///////////////////////////调PID///////////////////////////////////////
 void VofaTransmitInc();
@@ -66,6 +82,7 @@ void RobotBeginVoice(uint8_t Music, uint8_t *HZdata);
 
 
 void RobotReceivedFruitVoice();
+void RobotReceivedVegetableVoice();
 
 void RobotEndVoice(uint8_t amount_of_fruits, uint8_t amount_of_vegetables);
 

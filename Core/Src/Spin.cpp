@@ -72,14 +72,10 @@ void RobotSpin::spin_to(double heading) {
         spin_pid.SetOutputRange(-max_spin_speed, max_spin_speed);
         spin_pid.SetTarget(heading); //设置PID目标朝向
 
-//    double old_current_heading = get_current_heading();
-//    double old_heading = _heading;
-
     while (true) {
             double current_heading = get_current_heading();
             RxCplt_flag = 0;//get_current_heading()中已经设置为0（按理）
 
-//        _heading = old_heading + current_heading - old_current_heading; //应该是用于机器人自身的姿态判断的
 
             double heading1 = current_heading; //当前朝向1
             double heading2 = current_heading + 2 * PI; //当前朝向2
@@ -104,7 +100,8 @@ void RobotSpin::spin_to(double heading) {
 
             double l_speed;
             double r_speed;
-            l_speed = -spin_pid.GetOutput();
+            
+            l_speed = - spin_pid.GetOutput();  //位置环output来算出应该达到的目标速度
             r_speed = spin_pid.GetOutput();
 
 
@@ -131,7 +128,7 @@ void RobotSpin::spin_left() {
         }
     }
     double current_angle = get_current_heading();
-    spin_to(current_angle - PI / 2.0);
+    spin_to(current_angle - PI/2);
 }
 
 void RobotSpin::spin_right() {
@@ -144,7 +141,7 @@ void RobotSpin::spin_right() {
         }
     }
     double current_angle = get_current_heading();
-    spin_to(current_angle + PI / 2.0);
+    spin_to(current_angle + PI/2);
 }
 
 void RobotSpin::set_lr_speed(double l_speed, double r_speed) {
