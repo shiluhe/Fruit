@@ -145,7 +145,151 @@ int main(void)
     HAL_Delay(4500);//语音播报时间
 
 
-    RoboAllMove();
+//    RoboAllMove();
+//    RobotMoveSpeed(50);
+//      RobotSpinNinety(false);
+//    RobotArmMiddle();
+//    RobotGrabRightUp();
+//    RobotArmMiddle();
+//    RobotGrabLeftUp();
+//    RobotMoveForward(50, 40);//前轮到出发线8cm
+//    HAL_Delay(1000);
+//          RobotSpinNinety(false);
+//    RobotMoveForward(50, 40);//前轮到出发线8cm
+//    HAL_Delay(1000);
+//    RobotMoveForward(50, 40);//前轮到出发线8cm
+//    HAL_Delay(1000);
+
+///////////////////////////////////////////开始开始开始////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////AAAAAAAAAAAAAAA区////////////////////////////////////////////
+    RobotMoveForward(40, 48);//前轮到出发线8cm
+    RobotArmMiddle();
+    RobotGrabRightGround();
+    RobotArmMiddle();
+    RobotGrabLeftUp();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 100);
+    RobotArmMiddle();
+    RobotGrabRightUp();
+    RobotArmMiddle();
+    RobotGrabLeftGround();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 100);
+    RobotArmMiddle();
+    RobotGrabRightGround();
+    RobotArmMiddle();
+    RobotGrabLeftUp();
+    RobotArmMiddleBehind();
+
+    RobotMoveForward(40, 58);  //58=40+18
+    RobotSpinNinety(false);
+    //更新角度
+    ///////////////////////////////////BBBBBBBBBBBBBBBBBBBBBBBBBBB区区/////////////////////////////////////////////////
+
+    RobotMoveForward(40, 99);///////////////重点调
+    RobotSpinNinety(false);
+
+    RobotMoveForward(40, 22);  //22=40-18
+    RobotArmMiddle();
+    RobotGrabRightGround();
+    RobotArmMiddle();
+    RobotGrabLeftUp();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 100);
+    RobotArmMiddle();
+    RobotGrabRightUp();
+    RobotArmMiddle();
+    RobotGrabLeftGround();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 100);
+    RobotArmMiddle();
+    RobotGrabRightGround();
+    RobotArmMiddle();
+    RobotGrabLeftUp();
+    RobotArmMiddleBehind();
+
+    RobotMoveForward(40, 58);
+    RobotSpinNinety(true);
+    /////////////////////////////////CCCCCCCCCCCCCCCCCCCCCCCCC区区////////////////////////////////////////////////////////
+
+
+    RobotMoveForward(40, 125.5); //B区到C区         ///////////////重点调
+    RobotSpinNinety(true);
+
+    RobotMoveForward(40, 44);  //C区起点到C区蔬菜处
+    RobotArmMiddle();
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+    RobotArmMiddleBehind();
+
+    RobotMoveForward(40, 82);  //C一道最后一个南瓜到十字的距离
+    RobotSpinNinety(false);
+    //更新角度
+
+    RobotMoveForward(40, 105.5);//C一道到C二道之间的距离////////////////////////////重点调
+    RobotSpinNinety(false);
+
+    RobotMoveForward(40, 45);  //C二道第一个南瓜到十字的距离
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+
+    RobotMoveForward(40, 40);
+    RobotCGrabLeft();
+    RobotArmMiddle();
+    RobotCGrabRight();
+    RobotArmMiddle();
+//////////////////////////////////////////////结束结束结束//////////////////////////////////////////////////////////////
 
   /* USER CODE END 2 */
 

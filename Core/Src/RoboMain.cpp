@@ -240,10 +240,11 @@ void RobotInit()
 //    double kp4 = 2.60, ki4 = 0.001283, kd4 = 0.001; //RB
 
 
-    double kp =  19.98, ki =  4.0057, kd =  0.15; //LF
-    double kp3 = 19.98, ki3 = 4.0057, kd3 = 0.15; //LB
-    double kpr = 19.98, kir = 4.0057, kdr = 0.15; //RF
-    double kp4 = 19.98, ki4 = 4.0057, kd4 = 0.15; //RB
+    double kp =  19, ki =  4.005, kd =  0.2; //LF
+    double kp3 = 19, ki3 = 4.005, kd3 = 0.2; //LB
+    double kpr = 18.95, kir = 4.0047, kdr = 0.23; //RF
+    double kp4 = 18.95, ki4 = 4.0047, kd4 = 0.23; //RB
+
 
     encodingMotorRB.SetPID(kp4, ki4, kd4);
     encodingMotorRB.SetOutputRange(-1000, 1000);
@@ -498,7 +499,7 @@ void RobotArmMiddle()
     HAL_Delay(500); //等待总线舵机完成
 
     PwmServo1.PwmCommitAngle(172.8,360);
-    PwmServo2.PwmCommitAngle(90,180);
+    PwmServo2.PwmCommitAngle(65,180);
     HAL_Delay(800);
 
 }
@@ -509,7 +510,7 @@ void RobotArmMiddleBehind(){
     BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
     HAL_Delay(500); //等待总线舵机完成
 
-    PwmServo1.PwmCommitAngle(0,360);
+    PwmServo1.PwmCommitAngle(352.5,360);
     PwmServo2.PwmCommitAngle(90,180);
     HAL_Delay(800);
 }
@@ -519,7 +520,7 @@ void RobotGrabRightUp()
     //准备识别的动作：
     BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
     BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
-    BusServo3.MoveBusServoCmd(57.0/100*PI,1000);
+    BusServo3.MoveBusServoCmd(68.0/100*PI,1000);
     HAL_Delay(1800);
     PwmServo1.PwmCommitAngle(82.8,360);
     PwmServo2.PwmCommitAngle(90,180);
@@ -584,13 +585,13 @@ void RobotGrabRightUp()
             //抓取水果 抓取好放回篮子
             PwmServo2.PwmCommitAngle(50, 180);
             HAL_Delay(500);
-            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//前进后退，太前面了容易碰倒板子
-            BusServo1.MoveBusServoCmd(52.0/75*PI - AngleOffset,1000); //590
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+            BusServo2.MoveBusServoCmd(47.5/75*PI,1000); //470//前进后退，太前面了容易碰倒板子
+            BusServo1.MoveBusServoCmd(54.0/75*PI - AngleOffset,1000); //590
+            BusServo3.MoveBusServoCmd(64.0/100*PI,1000); //500
             HAL_Delay(1500);
             PwmServo2.PwmCommitAngle(18,180);//爪子闭合
             HAL_Delay(1200);
-            BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //抬升一下 620/加30
+            BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.05*PI,1000); //抬升一下 620/加30
             HAL_Delay(1000);
 
             //机械臂放水果归篮子
@@ -599,7 +600,7 @@ void RobotGrabRightUp()
             HAL_Delay(1500);
 
             //加激光测距，若抓到（距离小），就播报抓到
-            RobotReceivedFruitVoice();
+//            RobotReceivedFruitVoice();
 
             PwmServo1.PwmCommitAngle(0,360);//转向后方
             HAL_Delay(1000);
@@ -611,215 +612,17 @@ void RobotGrabRightUp()
 
     }
 
-
-}
-
-void RobotGrabRightUp1(){
-        //准备识别的动作：
-        BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
-        BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
-        BusServo3.MoveBusServoCmd(62.0/100*PI,1000);
-        HAL_Delay(1800);
-        PwmServo1.PwmCommitAngle(82.8,360);
-        PwmServo2.PwmCommitAngle(90,180);
-        HAL_Delay(500);
-
-        rx_times_flag1 = 0;
-        //开始识别
-        while(rx_times_flag1<=800)
-        {
-
-            rx_times_flag2 = 0;
-            HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
-
-            int none_flag = 0;
-            HAL_Delay(2000); //识别两秒
-
-            HAL_UART_Abort_IT(&huart6);
-            if(!k210_msg_received_flag) none_flag = 1;
-            if (k210_msg_received_flag) k210_msg_received_flag = 0;
-            if (none_flag) break;
-
-            int fruit_flag = 0;
-            if (k210_msg_flag == 1)
-            {
-                k210_msg_flag = 0;
-                if (k210_msg[0] == '5' && k210_msg[1] == '5' && k210_msg[2] == '5' && k210_msg[3] == '5' &&
-                    k210_msg[16] == '8' && k210_msg[15] == '8' && k210_msg[14] == '8' && k210_msg[13] == '8')
-                {
-                    if (k210_msg[11] == '0' && (k210_msg[12] == '1' || k210_msg[12] == '2'))
-                        fruit_flag = 1;
-                    if (k210_msg[11] == '0' && (k210_msg[12] == '4' || k210_msg[12] == '5'))
-                        break;
-                }
-            }
-
-            if (fruit_flag) {
-                //分析水果偏移量
-                int centerX=0;
-                int centerY=0;
-                char center_x[3];
-                char center_y[3];
-                for (int i=0; i<3; i++)
-                {
-                    center_x[i] = k210_msg[i+4];
-                    center_y[i] = k210_msg[i+8];
-                }
-                centerX = atoi(center_x);
-                centerY = atoi(center_y);
-                int Xoffset = centerX - 160;
-                double AngleOffset = 0;
-                AngleOffset = -Xoffset * 0.07;
-                PwmServo1.PwmCommitAngle(PwmServo1.GetAngle() + AngleOffset, 360);
-                HAL_Delay(100);
-
-                int Yoffset = centerY - 120;
-                AngleOffset = Yoffset * 0.12;
-                AngleOffset = AngleOffset / 180 * PI;
-                BusServo1.MoveBusServoCmd(BusServo1.GetAngle() - AngleOffset, 1000);
-                HAL_Delay(1000);
-
-                //抓取水果 抓取好放回篮子
-                PwmServo2.PwmCommitAngle(50, 180);
-                HAL_Delay(500);
-                BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//前进后退，太前面了容易碰倒板子
-                BusServo1.MoveBusServoCmd(54.0/75*PI - AngleOffset,1000); //590
-                BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
-                HAL_Delay(1500);
-                PwmServo2.PwmCommitAngle(18,180);//爪子闭合
-                HAL_Delay(1200);
-                BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //抬升一下 620/加30
-                HAL_Delay(1000);
-
-                //机械臂放水果归篮子
-                BusServo2.MoveBusServoCmd(0.5*PI,1000); //300
-                BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
-                HAL_Delay(1500);
-
-                //加激光测距，若抓到（距离小），就播报抓到
-                RobotReceivedFruitVoice();
-
-                PwmServo1.PwmCommitAngle(0,360);//转向后方
-                HAL_Delay(1000);
-                PwmServo2.PwmCommitAngle(90,180);//爪子张开
-                HAL_Delay(1000);
-                amount_of_fruits++;
-                break;
-
-            }
-
-        }
-
-}
-
-void RobotGrabRightUp2()
-{
-    //准备识别的动作：
-    BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
-    BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
-    BusServo3.MoveBusServoCmd(67.0/100*PI,1000);
-    HAL_Delay(1800);
-    PwmServo1.PwmCommitAngle(82.8,360);
-    PwmServo2.PwmCommitAngle(90,180);
-    HAL_Delay(500);
-
-    rx_times_flag1 = 0;
-    //开始识别
-    while(rx_times_flag1<=800)
-    {
-
-        rx_times_flag2 = 0;
-        HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
-
-        int none_flag = 0;
-        HAL_Delay(2000); //识别两秒
-
-        HAL_UART_Abort_IT(&huart6);
-        if(!k210_msg_received_flag) none_flag = 1;
-        if (k210_msg_received_flag) k210_msg_received_flag = 0;
-        if (none_flag) break;
-
-        int fruit_flag = 0;
-        if (k210_msg_flag == 1)
-        {
-            k210_msg_flag = 0;
-            if (k210_msg[0] == '5' && k210_msg[1] == '5' && k210_msg[2] == '5' && k210_msg[3] == '5' &&
-                k210_msg[16] == '8' && k210_msg[15] == '8' && k210_msg[14] == '8' && k210_msg[13] == '8')
-            {
-                if (k210_msg[11] == '0' && (k210_msg[12] == '1' || k210_msg[12] == '2'))
-                    fruit_flag = 1;
-                if (k210_msg[11] == '0' && (k210_msg[12] == '4' || k210_msg[12] == '5'))
-                    break;
-            }
-        }
-
-        if (fruit_flag) {
-            //分析水果偏移量
-            int centerX=0;
-            int centerY=0;
-            char center_x[3];
-            char center_y[3];
-            for (int i=0; i<3; i++)
-            {
-                center_x[i] = k210_msg[i+4];
-                center_y[i] = k210_msg[i+8];
-            }
-            centerX = atoi(center_x);
-            centerY = atoi(center_y);
-            int Xoffset = centerX - 160;
-            double AngleOffset = 0;
-            AngleOffset = -Xoffset * 0.07;
-            PwmServo1.PwmCommitAngle(PwmServo1.GetAngle() + AngleOffset, 360);
-            HAL_Delay(100);
-
-            int Yoffset = centerY - 120;
-            AngleOffset = Yoffset * 0.12;
-            AngleOffset = AngleOffset / 180 * PI;
-            BusServo1.MoveBusServoCmd(BusServo1.GetAngle() - AngleOffset, 1000);
-            HAL_Delay(1000);
-
-            //抓取水果 抓取好放回篮子
-            PwmServo2.PwmCommitAngle(50, 180);
-            HAL_Delay(500);
-            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//前进后退，太前面了容易碰倒板子
-            BusServo1.MoveBusServoCmd(56.0/75*PI - AngleOffset,1000); //590
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
-            HAL_Delay(1500);
-            PwmServo2.PwmCommitAngle(18,180);//爪子闭合
-            HAL_Delay(1200);
-            BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //抬升一下 620/加30
-            HAL_Delay(1000);
-
-            //机械臂放水果归篮子
-            BusServo2.MoveBusServoCmd(0.5*PI,1000); //300
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
-            HAL_Delay(1500);
-
-            //加激光测距，若抓到（距离小），就播报抓到
-            RobotReceivedFruitVoice();
-
-            PwmServo1.PwmCommitAngle(0,360);//转向后方
-            HAL_Delay(1000);
-            PwmServo2.PwmCommitAngle(90,180);//爪子张开
-            HAL_Delay(1000);
-            amount_of_fruits++;
-            break;
-
-        }
-
-    }
 
 }
 
 void RobotGrabRightGround()
 {
     //准备识别的动作：
-    BusServo2.MoveBusServoCmd(13.0/15*PI,1000); //650
-    BusServo1.MoveBusServoCmd(86.0/150*PI,1000); //455
+    BusServo2.MoveBusServoCmd(120.0/150*PI,1000); //650
+    BusServo1.MoveBusServoCmd(89.0/150*PI,1000); //455
     BusServo3.MoveBusServoCmd(44.0/150*PI,1000); //235
     PwmServo1.PwmCommitAngle(82.8,360);
     PwmServo2.PwmCommitAngle(90,180);
-//    HAL_Delay(1000);
     HAL_Delay(2000);
 
     rx_times_flag1 = 0;
@@ -877,8 +680,8 @@ void RobotGrabRightGround()
             HAL_Delay(1000);
 
             //抓取水果 抓取好放回篮子
-            BusServo2.MoveBusServoCmd(157.0/150*PI - AngleOffset,1000); //775
-            BusServo1.MoveBusServoCmd(38.0/75*PI,1000); //430
+            BusServo2.MoveBusServoCmd(152.0/150*PI - AngleOffset,1000); //775
+            BusServo1.MoveBusServoCmd(77.0/150*PI,1000); //430
             BusServo3.MoveBusServoCmd(10.0/30*PI,1000); //275
             HAL_Delay(1500); //总线舵机完成动作的时间
             PwmServo2.PwmCommitAngle(15,180);
@@ -890,8 +693,8 @@ void RobotGrabRightGround()
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
             HAL_Delay(1800);
 
-            //加激光测距，若抓到（距离小），就播报抓到
-            RobotReceivedVegetableVoice();
+//            //加激光测距，若抓到（距离小），就播报抓到
+//            RobotReceivedVegetableVoice();
 
 
             PwmServo1.PwmCommitAngle(0,360);
@@ -905,198 +708,6 @@ void RobotGrabRightGround()
 }
 
 void RobotGrabLeftUp()
-{
-    //准备识别的动作：
-    BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
-    BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
-    BusServo3.MoveBusServoCmd(57.0/100*PI,1000);
-    HAL_Delay(1800);
-    PwmServo1.PwmCommitAngle(260.8,360);
-    PwmServo2.PwmCommitAngle(90,180);
-    HAL_Delay(500);
-
-    rx_times_flag1 = 0;
-    //开始识别
-    while(rx_times_flag1<=800)
-    {
-        rx_times_flag2 = 0;
-        HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
-
-        int none_flag = 0;
-        HAL_Delay(2000); //识别两秒
-
-        HAL_UART_Abort_IT(&huart6);
-        if(!k210_msg_received_flag) none_flag = 1;
-        if (k210_msg_received_flag) k210_msg_received_flag = 0;
-        if (none_flag) break;
-
-        int fruit_flag = 0;
-        if (k210_msg_flag == 1)
-        {
-            k210_msg_flag = 0;
-            if (k210_msg[0] == '5' && k210_msg[1] == '5' && k210_msg[2] == '5' && k210_msg[3] == '5' &&
-                k210_msg[16] == '8' && k210_msg[15] == '8' && k210_msg[14] == '8' && k210_msg[13] == '8')
-            {
-                if (k210_msg[11] == '0' && (k210_msg[12] == '1' || k210_msg[12] == '2'))
-                    fruit_flag = 1;
-                if (k210_msg[11] == '0' && (k210_msg[12] == '4' || k210_msg[12] == '5'))
-                    break;
-            }
-
-        }
-
-        if (fruit_flag) {
-            //分析水果偏移量
-            int centerX=0;
-            int centerY=0;
-            char center_x[3];
-            char center_y[3];
-            for (int i=0; i<3; i++)
-            {
-                center_x[i] = k210_msg[i+4];
-                center_y[i] = k210_msg[i+8];
-            }
-            centerX = atoi(center_x);
-            centerY = atoi(center_y);
-            int Xoffset = centerX - 160;
-            double AngleOffset = 0;
-            AngleOffset = -Xoffset * 0.07;
-            PwmServo1.PwmCommitAngle(PwmServo1.GetAngle() + AngleOffset, 360);
-            HAL_Delay(100);
-
-            int Yoffset = centerY - 120;
-            AngleOffset = Yoffset * 0.12;
-            AngleOffset = AngleOffset / 180 * PI;
-            BusServo1.MoveBusServoCmd(BusServo1.GetAngle() - AngleOffset, 1000);
-            HAL_Delay(1000);
-
-            //抓取水果 抓取好放回篮子
-            PwmServo2.PwmCommitAngle(50, 180);
-            HAL_Delay(800);
-            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//前进后退，太前面了容易碰倒板子
-            BusServo1.MoveBusServoCmd(47.0/75*PI - AngleOffset,1000); //590
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
-            HAL_Delay(2000);//改了
-            PwmServo2.PwmCommitAngle(18,180);
-            HAL_Delay(1250);
-            BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //抬升一下 620/+30
-            HAL_Delay(1000);
-
-            //机械臂放水果归篮子
-            BusServo2.MoveBusServoCmd(0.5*PI,1000); //300
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
-            HAL_Delay(1250);
-
-            //加激光测距，若抓到（距离小），就播报抓到
-            RobotReceivedFruitVoice();
-
-            PwmServo1.PwmCommitAngle(352.8,360);
-            HAL_Delay(1250);
-            PwmServo2.PwmCommitAngle(90,180);
-            HAL_Delay(1250);//机械臂放水果归篮子
-            amount_of_fruits++;
-            break;
-        }
-    }
-}
-
-void RobotGrabLeftUp1()
-{
-    //准备识别的动作：
-    BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
-    BusServo1.MoveBusServoCmd(22.0/30*PI,1000);
-    BusServo3.MoveBusServoCmd(63.0/100*PI,1000);
-    HAL_Delay(1800);
-    PwmServo1.PwmCommitAngle(260.8,360);
-    PwmServo2.PwmCommitAngle(90,180);
-    HAL_Delay(500);
-
-    rx_times_flag1 = 0;
-    //开始识别
-    while(rx_times_flag1<=800)
-    {
-        rx_times_flag2 = 0;
-        HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
-
-        int none_flag = 0;
-        HAL_Delay(2000); //识别两秒
-
-        HAL_UART_Abort_IT(&huart6);
-        if(!k210_msg_received_flag) none_flag = 1;
-        if (k210_msg_received_flag) k210_msg_received_flag = 0;
-        if (none_flag) break;
-
-        int fruit_flag = 0;
-        if (k210_msg_flag == 1)
-        {
-            k210_msg_flag = 0;
-            if (k210_msg[0] == '5' && k210_msg[1] == '5' && k210_msg[2] == '5' && k210_msg[3] == '5' &&
-                k210_msg[16] == '8' && k210_msg[15] == '8' && k210_msg[14] == '8' && k210_msg[13] == '8')
-            {
-                if (k210_msg[11] == '0' && (k210_msg[12] == '1' || k210_msg[12] == '2'))
-                    fruit_flag = 1;
-                if (k210_msg[11] == '0' && (k210_msg[12] == '4' || k210_msg[12] == '5'))
-                    break;
-            }
-
-        }
-
-        if (fruit_flag) {
-            //分析水果偏移量
-            int centerX=0;
-            int centerY=0;
-            char center_x[3];
-            char center_y[3];
-            for (int i=0; i<3; i++)
-            {
-                center_x[i] = k210_msg[i+4];
-                center_y[i] = k210_msg[i+8];
-            }
-            centerX = atoi(center_x);
-            centerY = atoi(center_y);
-            int Xoffset = centerX - 160;
-            double AngleOffset = 0;
-            AngleOffset = -Xoffset * 0.07;
-            PwmServo1.PwmCommitAngle(PwmServo1.GetAngle() + AngleOffset, 360);
-            HAL_Delay(100);
-
-            int Yoffset = centerY - 120;
-            AngleOffset = Yoffset * 0.12;
-            AngleOffset = AngleOffset / 180 * PI;
-            BusServo1.MoveBusServoCmd(BusServo1.GetAngle() - AngleOffset, 1000);
-            HAL_Delay(1000);
-
-            //抓取水果 抓取好放回篮子
-            PwmServo2.PwmCommitAngle(50, 180);
-            HAL_Delay(800);
-            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//前进后退，太前面了容易碰倒板子
-            BusServo1.MoveBusServoCmd(48.0/75*PI - AngleOffset,1000); //590
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
-            HAL_Delay(2000);//改了
-            PwmServo2.PwmCommitAngle(18,180);
-            HAL_Delay(1250);
-            BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //抬升一下 620/+30
-            HAL_Delay(1000);
-
-            //机械臂放水果归篮子
-            BusServo2.MoveBusServoCmd(0.5*PI,1000); //300
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
-            HAL_Delay(1250);
-
-            //加激光测距，若抓到（距离小），就播报抓到
-            RobotReceivedFruitVoice();
-
-            PwmServo1.PwmCommitAngle(352.8,360);
-            HAL_Delay(1250);
-            PwmServo2.PwmCommitAngle(90,180);
-            HAL_Delay(1250);//机械臂放水果归篮子
-            amount_of_fruits++;
-            break;
-        }
-    }
-}
-
-void RobotGrabLeftUp2()
 {
     //准备识别的动作：
     BusServo2.MoveBusServoCmd(32.0/75*PI,1000);
@@ -1165,13 +776,13 @@ void RobotGrabLeftUp2()
             //抓取水果 抓取好放回篮子
             PwmServo2.PwmCommitAngle(50, 180);
             HAL_Delay(800);
-            BusServo2.MoveBusServoCmd(52.5/75*PI,1000); //470//前进后退，太前面了容易碰倒板子
-            BusServo1.MoveBusServoCmd(49.0/75*PI - AngleOffset,1000); //590
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
+            BusServo2.MoveBusServoCmd(47.5/75*PI,1000); //470//前进后退，太前面了容易碰倒板子
+            BusServo1.MoveBusServoCmd(54.0/75*PI - AngleOffset,1000); //590
+            BusServo3.MoveBusServoCmd(64.0/100*PI,1000); //500
             HAL_Delay(2000);//改了
             PwmServo2.PwmCommitAngle(18,180);
             HAL_Delay(1250);
-            BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.06*PI,1000); //抬升一下 620/+30
+            BusServo1.MoveBusServoCmd(BusServo1.GetAngle()+0.05*PI,1000); //抬升一下 620/+30
             HAL_Delay(1000);
 
             //机械臂放水果归篮子
@@ -1179,8 +790,8 @@ void RobotGrabLeftUp2()
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000); //500
             HAL_Delay(1250);
 
-            //加激光测距，若抓到（距离小），就播报抓到
-            RobotReceivedFruitVoice();
+//            //加激光测距，若抓到（距离小），就播报抓到
+//            RobotReceivedFruitVoice();
 
             PwmServo1.PwmCommitAngle(352.8,360);
             HAL_Delay(1250);
@@ -1195,8 +806,8 @@ void RobotGrabLeftUp2()
 void RobotGrabLeftGround()
 {
     //准备识别的动作：
-    BusServo2.MoveBusServoCmd(13.0/15*PI,1000); //650
-    BusServo1.MoveBusServoCmd(88.0/150*PI,1000); //455
+    BusServo2.MoveBusServoCmd(120.0/150*PI,1000); //650
+    BusServo1.MoveBusServoCmd(89.0/150*PI,1000); //455
     BusServo3.MoveBusServoCmd(45.0/150*PI,1000); //235
     PwmServo1.PwmCommitAngle(262.8,360);
     PwmServo2.PwmCommitAngle(90,180);
@@ -1260,7 +871,7 @@ void RobotGrabLeftGround()
             HAL_Delay(1000);
 
             //抓取水果 抓取好放回篮子
-            BusServo2.MoveBusServoCmd(127.0/120*PI - AngleOffset,1000); //775
+            BusServo2.MoveBusServoCmd(123.0/120*PI - AngleOffset,1000); //775
             BusServo1.MoveBusServoCmd(79.0/150*PI,1000); //430
             BusServo3.MoveBusServoCmd(47.0/150*PI,1000); //275
             HAL_Delay(1500); //总线舵机完成动作的时间
@@ -1272,8 +883,8 @@ void RobotGrabLeftGround()
             BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
             HAL_Delay(2100);
 
-            //加激光测距，若抓到（距离小），就播报抓到
-            RobotReceivedVegetableVoice();
+//            //加激光测距，若抓到（距离小），就播报抓到
+//            RobotReceivedVegetableVoice();
 
 
             PwmServo1.PwmCommitAngle(352.8,360);
@@ -1286,39 +897,35 @@ void RobotGrabLeftGround()
     }
 }
 
-void RobotCGrabLeft()
-{
+void RobotCGrabLeft() {
     //准备识别的动作：
-    PwmServo1.PwmCommitAngle(262.8,360);
-    PwmServo2.PwmCommitAngle(90,180);
-    HAL_Delay(2000);
-    BusServo2.MoveBusServoCmd(0.8*PI,1000); //600
-    BusServo1.MoveBusServoCmd(8.0/15*PI,1000); //400
-    BusServo3.MoveBusServoCmd(0.2*PI,1000); //150
+    PwmServo1.PwmCommitAngle(262.8, 360);
+    PwmServo2.PwmCommitAngle(90, 180);
+//    HAL_Delay(1000);
+    BusServo2.MoveBusServoCmd(2.0/3 * PI, 1000); //600     //500
+    BusServo1.MoveBusServoCmd(2.0/3 * PI, 1000); //400   //500
+    BusServo3.MoveBusServoCmd(0.266666 * PI, 1000); //150    //200
     HAL_Delay(2000);
 
     rx_times_flag1 = 0;
     //开始识别
-    while(rx_times_flag1<=800)
-    {
+    while (rx_times_flag1 <= 800) {
         rx_times_flag2 = 0;
         HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
 
-        HAL_Delay(3000);
+        HAL_Delay(2000);
         int none_flag = 0;
 
         HAL_UART_Abort_IT(&huart6);
-        if(!k210_msg_received_flag) none_flag = 1;
+        if (!k210_msg_received_flag) none_flag = 1;
         if (k210_msg_received_flag) k210_msg_received_flag = 0;
         if (none_flag) break;//没有查找到不运动
 
         int fruit_flag = 0;
-        if (k210_msg_flag == 1)
-        {
+        if (k210_msg_flag == 1) {
             k210_msg_flag = 0;
             if (k210_msg[0] == '5' && k210_msg[1] == '5' && k210_msg[2] == '5' && k210_msg[3] == '5' &&
-                k210_msg[16] == '8' && k210_msg[15] == '8' && k210_msg[14] == '8' && k210_msg[13] == '8')
-            {
+                k210_msg[16] == '8' && k210_msg[15] == '8' && k210_msg[14] == '8' && k210_msg[13] == '8') {
                 if (k210_msg[11] == '0' && (k210_msg[12] == '1' || k210_msg[12] == '2'))
                     fruit_flag = 1;
                 if (k210_msg[11] == '0' && (k210_msg[12] == '4' || k210_msg[12] == '5'))
@@ -1328,14 +935,13 @@ void RobotCGrabLeft()
 
         if (fruit_flag) {
             //分析水果偏移量
-            int centerX=0;
-            int centerY=0;
+            int centerX = 0;
+            int centerY = 0;
             char center_x[3];
             char center_y[3];
-            for (int i=0; i<3; i++)
-            {
-                center_x[i] = k210_msg[i+4];
-                center_y[i] = k210_msg[i+8];
+            for (int i = 0; i < 3; i++) {
+                center_x[i] = k210_msg[i + 4];
+                center_y[i] = k210_msg[i + 8];
             }
             centerX = atoi(center_x);
             centerY = atoi(center_y);
@@ -1352,36 +958,36 @@ void RobotCGrabLeft()
             HAL_Delay(1000);
 
             //抓取水果 抓取好放回篮子
-            BusServo2.MoveBusServoCmd(13.0/15*PI - AngleOffset,1000); //650
-            BusServo1.MoveBusServoCmd(11.0/30*PI,1000); //275
-            BusServo3.MoveBusServoCmd(7.0/15*PI,1000); //350
+            BusServo2.MoveBusServoCmd(13.0 / 15 * PI - AngleOffset, 1000); //650
+            BusServo1.MoveBusServoCmd(11.0 / 30 * PI, 1000); //275
+            BusServo3.MoveBusServoCmd(75.0 / 150 * PI, 1000); //350
             HAL_Delay(1500); //总线舵机完成动作的时间
-            PwmServo2.PwmCommitAngle(23,180);
+            PwmServo2.PwmCommitAngle(15, 180);
             HAL_Delay(1250); //爪子抓取水果时间
-            BusServo2.MoveBusServoCmd(0.4*PI,2000);
-            BusServo1.MoveBusServoCmd(0.8*PI,1000); //600
-            BusServo3.MoveBusServoCmd(2.0/3*PI,1000);
+            BusServo2.MoveBusServoCmd(0.4 * PI, 2000);
+            BusServo1.MoveBusServoCmd(0.8 * PI, 1000); //600
+            BusServo3.MoveBusServoCmd(2.0 / 3 * PI, 1000);
             HAL_Delay(2100);
-            PwmServo1.PwmCommitAngle(352.8,360);
+            PwmServo1.PwmCommitAngle(352.8, 360);
             HAL_Delay(1250);
-            PwmServo2.PwmCommitAngle(90,180);
+            PwmServo2.PwmCommitAngle(90, 180);
             HAL_Delay(1250);//机械臂放水果归篮子
             amount_of_vegetables++;
             break;
         }
     }
-}
 
+}
 void RobotCGrabRight()
 {
     //准备识别的动作：
     PwmServo1.PwmCommitAngle(82.8,360);
     PwmServo2.PwmCommitAngle(90,180);
-    HAL_Delay(1500);
-    BusServo2.MoveBusServoCmd(0.8*PI,1000); //600
-    BusServo1.MoveBusServoCmd(8.0/15*PI,1000); //400
-    BusServo3.MoveBusServoCmd(0.2*PI,1000); //150
-    HAL_Delay(1500);
+//    HAL_Delay(1500);
+    BusServo2.MoveBusServoCmd(2.0/3*PI,1000); //600
+    BusServo1.MoveBusServoCmd(2.0/3*PI,1000); //400
+    BusServo3.MoveBusServoCmd(0.2666666666*PI,1000); //150
+    HAL_Delay(2000);
 
 
     rx_times_flag1 = 0;
@@ -1391,7 +997,7 @@ void RobotCGrabRight()
         rx_times_flag2 = 0;
         HAL_UART_Receive_IT(&huart6, &single_byte, sizeof(single_byte));
 
-        HAL_Delay(3000);
+        HAL_Delay(2000);
         int none_flag = 0;
 
         HAL_UART_Abort_IT(&huart6);
@@ -1441,9 +1047,9 @@ void RobotCGrabRight()
             //抓取水果 抓取好放回篮子
             BusServo2.MoveBusServoCmd(13.0/15*PI - AngleOffset,1000); //650
             BusServo1.MoveBusServoCmd(11.0/30*PI,1000); //275
-            BusServo3.MoveBusServoCmd(7.0/15*PI,1000); //350
+            BusServo3.MoveBusServoCmd(75.0/150*PI,1000); //350
             HAL_Delay(1500); //总线舵机完成动作的时间
-            PwmServo2.PwmCommitAngle(23,180);
+            PwmServo2.PwmCommitAngle(15,180);
             HAL_Delay(1250); //爪子抓取水果时间
             BusServo2.MoveBusServoCmd(0.4*PI,2000);
             BusServo1.MoveBusServoCmd(0.8*PI,1000); //600
@@ -1662,6 +1268,10 @@ void RoboAllMove() {
     RobotArmMiddle();
     RobotCGrabRight();
     RobotArmMiddle();
+
+    RobotMoveForward(50, 40);
+
+
 
 }
 

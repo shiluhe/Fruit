@@ -55,14 +55,11 @@ void RobotArmMiddle();
 void RobotArmMiddleBehind();
 
 void RobotGrabRightUp();
-void RobotGrabRightUp1();
-void RobotGrabRightUp2();
 
 void RobotGrabRightGround();
 
 void RobotGrabLeftUp();
-void RobotGrabLeftUp1();
-void RobotGrabLeftUp2();
+
 
 void RobotGrabLeftGround();
 void RobotCGrabLeft();

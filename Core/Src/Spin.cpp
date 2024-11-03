@@ -93,7 +93,7 @@ void RobotSpin::spin_to(double heading) {
             });
             current_heading = vec.front().first;
 
-            if (std::fabs(current_heading - heading) < 0.008) break; //达到目标朝向就跳出循环
+            if (std::fabs(current_heading - heading) < 0.003) break; //达到目标朝向就跳出循环
 //        if (timeout <= 0) break;
             spin_pid.SetInput(current_heading);
             spin_pid.Tick();
@@ -141,7 +141,7 @@ void RobotSpin::spin_right() {
         }
     }
     double current_angle = get_current_heading();
-    spin_to(current_angle + PI/2);
+    spin_to(current_angle + PI*0.499);
 }
 
 void RobotSpin::set_lr_speed(double l_speed, double r_speed) {
